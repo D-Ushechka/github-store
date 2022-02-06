@@ -82,8 +82,8 @@ body {
 }
 
 .searchBar input:disabled {
-  background: #f9f9f9;
-  color: var(--input-disabled-color);
+  background: var(--input-disabled-color);
+  color: var(--hint-color);
 }
 
 .searchBar button:hover {
