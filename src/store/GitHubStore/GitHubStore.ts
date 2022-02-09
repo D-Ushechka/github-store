@@ -4,19 +4,17 @@ import {IGitHubStore, GetOrganizationReposListParams, ApiResp, SuccessRepoItem, 
 
 
 export default class GitHubStore implements IGitHubStore {
-    private readonly apiStore = new ApiStore('https://api.github.com'); // TODO: не забудьте передать baseUrl в конструктор
+    private readonly apiStore = new ApiStore('https://api.github.com'); 
 
-    // TODO: реализовать интерфейс IGitHubStore
 
     async getOrganizationReposList<RepoName = string>(params: GetOrganizationReposListParams): Promise<ApiResp<RepoName>> {
-        // TODO: Здесь сделайте вызов из this.apiStore и верните результат
-        // Документация github: https://docs.github.com/en/rest/reference/repos#list-organization-repositories
+        
         let result:ApiResp<RepoName> = {};
 
         let paramsApi : RequestParams<any> = {
-            method: HTTPMethod.GET, //"GET",
+            method: HTTPMethod.GET, 
             endpoint:
-              this.apiStore.baseUrl + "/orgs/" + params.organizationName + "/repos",
+              "/orgs/" + params.organizationName + "/repos",
             headers: {},
             data: {},
           };
