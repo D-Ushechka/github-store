@@ -9,8 +9,13 @@ export type RepoItem = {
     name: string;
 }
 
+export type ErrorAnswer = {
+    message: string,
+    documentation_url: string
+}
+
 export interface IGitHubStore {
-    getOrganizationReposList(params: GetOrganizationReposListParams): Promise<ApiResponse<RepoItem[], any>>;
+    getOrganizationReposList(params: GetOrganizationReposListParams): Promise<ApiResponse<RepoItem[], ErrorAnswer>>;
 }
 
 export type PostUserRepoParam = {
@@ -20,6 +25,12 @@ export type PostUserRepoParam = {
     repoPrivate?: boolean
 }
 
+export type SuccesRepo = {
+    id: number,
+    name: string,
+    url: string
+}
+
 export interface IGitHubStore {
- postUserRepo(params: PostUserRepoParam): Promise<ApiResponse<any, any>>
+ postUserRepo(params: PostUserRepoParam): Promise<ApiResponse<SuccesRepo, ErrorAnswer>>
 }

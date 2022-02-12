@@ -1,13 +1,13 @@
 import ApiStore from 'shared/store/ApiStore';
 import {HTTPMethod, ApiResponse} from 'shared/store/ApiStore/types';
-import {IGitHubStore, GetOrganizationReposListParams, RepoItem, PostUserRepoParam} from "./types";
+import {IGitHubStore, GetOrganizationReposListParams, RepoItem, PostUserRepoParam, ErrorAnswer, SuccesRepo} from "./types";
 
 
 export default class GitHubStore implements IGitHubStore {
     private readonly apiStore = new ApiStore('https://api.github.com'); 
 
 
-      async getOrganizationReposList(params: GetOrganizationReposListParams): Promise<ApiResponse<RepoItem[], any>> {
+      async getOrganizationReposList(params: GetOrganizationReposListParams): Promise<ApiResponse<RepoItem[], ErrorAnswer>> {
           
           return await  this.apiStore.request({
             method: HTTPMethod.GET, 
@@ -18,7 +18,7 @@ export default class GitHubStore implements IGitHubStore {
           })
     }
 
-    async postUserRepo(params: PostUserRepoParam): Promise<ApiResponse<any, any>> {
+    async postUserRepo(params: PostUserRepoParam): Promise<ApiResponse<SuccesRepo, ErrorAnswer>> {
           
       return await  this.apiStore.request({
         method: HTTPMethod.POST, 

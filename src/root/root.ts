@@ -3,7 +3,7 @@ import GitHubStore from 'store/GitHubStore/GitHubStore';
 export function func() {
 const gitHubStore = new GitHubStore();
 
-const EXAMPLE_ORGANIZATION = 'ktsstudio';
+const EXAMPLE_ORGANIZATION = 'ktsstudio1';
 
 gitHubStore.getOrganizationReposList({
   organizationName: EXAMPLE_ORGANIZATION
@@ -17,8 +17,8 @@ gitHubStore.getOrganizationReposList({
 })
 
 gitHubStore.postUserRepo({
-  userToken: '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',
-  repoName: 'test123',
+  userToken: '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',
+  repoName: 'test124',
   repoDescription: 'bla bla',
   repoPrivate: false
 }).then(result => console.log(result))
