@@ -3,7 +3,7 @@ import GitHubStore from 'store/GitHubStore/GitHubStore';
 export function func() {
 const gitHubStore = new GitHubStore();
 
-const EXAMPLE_ORGANIZATION = 'ktsstudio1';
+const EXAMPLE_ORGANIZATION = 'ktsstudio';
 
 gitHubStore.getOrganizationReposList({
   organizationName: EXAMPLE_ORGANIZATION
