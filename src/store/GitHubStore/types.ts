@@ -1,36 +1,39 @@
-import { ApiResponse } from "shared/store/ApiStore/types";
+import { ApiResponse } from '../../shared/store/ApiStore/types';
 
-
- export type GetOrganizationReposListParams = {
-    organizationName: string;    
-}
+export type GetOrganizationReposListParams = {
+  organizationName: string;
+};
 
 export type RepoItem = {
-    name: string;
-}
+  name: string;
+};
 
 export type ErrorAnswer = {
-    message: string,
-    documentation_url: string
-}
+  message: string;
+  documentation_url: string;
+};
 
 export interface IGitHubStore {
-    getOrganizationReposList(params: GetOrganizationReposListParams): Promise<ApiResponse<RepoItem[], ErrorAnswer>>;
+  getOrganizationReposList(
+    params: GetOrganizationReposListParams
+  ): Promise<ApiResponse<RepoItem[], ErrorAnswer>>;
 }
 
 export type PostUserRepoParam = {
-    userToken: string,
-    repoName: string,
-    repoDescription?: string,
-    repoPrivate?: boolean
-}
+  userToken: string;
+  repoName: string;
+  repoDescription?: string;
+  repoPrivate?: boolean;
+};
 
 export type SuccesRepo = {
-    id: number,
-    name: string,
-    url: string
-}
+  id: number;
+  name: string;
+  url: string;
+};
 
 export interface IGitHubStore {
- postUserRepo(params: PostUserRepoParam): Promise<ApiResponse<SuccesRepo, ErrorAnswer>>
+  postUserRepo(
+    params: PostUserRepoParam
+  ): Promise<ApiResponse<SuccesRepo, ErrorAnswer>>;
 }

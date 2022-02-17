@@ -1,0 +1,63 @@
+.git-repo-tile {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 12px;
+
+  font-size: 14px;
+  line-height: 16px;
+  color: var(--hint-color);
+
+  border: 1px solid var(--border-color);
+  box-sizing: border-box;
+  border-radius: 6px;
+  flex-grow: 0;
+}
+.git-repo-tile_hover:hover {
+  box-shadow: 0px 2px 6px rgba(182, 182, 182, 0.25);
+}
+
+.content {
+  margin-left: 12px;
+  height: 59px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-width: 0;
+}
+
+.repo-name {
+  font-size: 16px;
+  line-height: 19px;
+  font-weight: bold;
+  color: var(--default-color);
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.org-name_hover:hover {
+  color: var(--link-hover-color);
+}
+
+.info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.stars {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.stars__p {
+  margin-left: 4px;
+  margin-right: 20px;
+  margin-top: 0;
+  margin-bottom: 0;
+}

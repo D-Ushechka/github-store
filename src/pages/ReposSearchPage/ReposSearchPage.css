@@ -1,0 +1,45 @@
+:root {
+  --accent-color: #ff5555;
+  --hint-color: #7e7e7e;
+  --default-color: #000000;
+  --border-color: #d9d9d9;
+  --bg-color: #ffffff;
+  --link-hover-color: #208fbf;
+  --input-disabled-color: #f9f9f9;
+  --button-disabled-color: #d9d9d9;
+}
+
+body {
+  margin: 0;
+}
+.container {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 397px;
+  padding: 20px;
+  margin: auto;
+  font-family: "Roboto", "Arial", sans-serif;
+
+  display: grid;
+  grid-row-gap: 20px;
+  grid-template-columns: 100%;
+}
+
+.search-bar {
+  display: grid;
+  grid-template-columns: auto min-content;
+  justify-items: stretch;
+  grid-column-gap: 20px;
+  width: 100%;
+}
+
+.repos-list {
+  display: grid;
+  gap: 16px;
+
+  grid-template-columns: 100%;
+}
+
+.search-icon {
+  vertical-align: middle;
+}
