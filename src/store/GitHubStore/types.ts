@@ -4,8 +4,20 @@ export type GetOrganizationReposListParams = {
   organizationName: string;
 };
 
+export type GitHubRepoOwner = {
+  id: number;
+  url: string;
+  login: string;
+  avatar_url: string;
+};
+
 export type RepoItem = {
+  id: number;
+  url: string;
   name: string;
+  owner: GitHubRepoOwner;
+  updated_at: string;
+  stargazers_count: number;
 };
 
 export type ErrorAnswer = {
