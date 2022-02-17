@@ -1,0 +1,171 @@
+:root {
+  --accent-color: #ff5555;
+  --hint-color: #7e7e7e;
+  --default-color: #000000;
+  --border-color: #d9d9d9;
+  --bg-color: #ffffff;
+  --link-hover-color: #208fbf;
+  --input-disabled-color:  #f9f9f9;
+  --button-disabled-color: #d9d9d9;
+}
+
+body {
+  margin: 0;
+}
+.container {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 397px;
+  padding: 20px;
+  margin: auto;
+  font-family: "Roboto", "Arial", sans-serif;
+
+  display: grid;
+  grid-row-gap: 20px;
+  grid-template-columns: 100%;
+}
+
+.search-bar  {
+  display: grid;
+  grid-template-columns: auto min-content;
+  justify-items: stretch;
+  grid-column-gap: 20px;
+  width: 100%;
+
+}
+
+.search-button {
+  width: 50px;
+  height: 50px;
+  background: var(--accent-color);
+  box-shadow: none;
+  border: none;
+  border-radius: 6px;
+}
+
+.search-input {
+  height: 50px;
+  font-size: 14px;
+  line-height: 16px;
+  color: var(--default-color);
+  box-sizing: border-box;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding-left: 10px;
+  outline: 0;
+}
+
+.search-input::placeholder {
+  color: var(--hint-color);
+}
+
+.search-input_focus:focus {
+  border: 1px solid var(--accent-color);
+}
+
+.search-input_disabled:disabled {
+  background: var(--input-disabled-color);
+  color: var(--hint-color);
+}
+
+.search-button_hover:hover {
+  opacity: 0.7;
+}
+
+.search-button_disabled:disabled {
+  background: var(--button-disabled-color);
+}
+
+.search-button__icon {
+  vertical-align: middle;
+}
+
+.repos-list {
+  display: grid;
+  gap: 16px;
+
+  
+  grid-template-columns: 100%;
+}
+.git-repo-tile {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 12px;
+
+  font-size: 14px;
+  line-height: 16px;
+  color: var(--hint-color);
+
+  border: 1px solid var(--border-color);
+  box-sizing: border-box;
+  border-radius: 6px;
+  flex-grow: 0;
+}
+.git-repo-tile_hover:hover {
+  box-shadow: 0px 2px 6px rgba(182, 182, 182, 0.25);
+}
+
+.avatar {
+  height: 80px;
+  width: 80px;
+  border-radius: 40px;
+  background-color: var(--accent-color);
+  
+  color: var(--bg-color);
+  font-weight: bold;
+  font-size: 40px;
+  line-height: 47px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  min-width: 80px;
+}
+
+.content {
+  margin-left: 12px;
+  height: 59px;
+  
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-width: 0;
+}
+
+.repo-name {
+  font-size: 16px;
+  line-height: 19px;
+  font-weight: bold;
+  color: var(--default-color);
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.org-name_hover:hover {
+  color: var(--link-hover-color);
+}
+
+.info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.stars {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.stars__p {
+  margin-left: 4px;
+  margin-right: 20px;
+  margin-top: 0;
+  margin-bottom: 0;
+}
