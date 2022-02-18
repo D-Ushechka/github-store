@@ -1,1 +1,1 @@
-export { default } from "./StarIcon";
+export { default } from './StarIcon';

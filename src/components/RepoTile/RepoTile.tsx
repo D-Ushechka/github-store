@@ -26,7 +26,14 @@ const RepoTile: React.FC<RepoTileProps> = ({ item, onClick }) => {
             <StarIcon />
             <p className="stars__p">{item.stargazers_count}</p>
           </div>
-          <div className="date">Updated {item.updated_at}</div>
+          <div className="date">
+            Updated{' '}
+            {item.updated_at.slice(8, 10) +
+              '.' +
+              item.updated_at.slice(5, 7) +
+              '.' +
+              item.updated_at.slice(0, 4)}
+          </div>
         </div>
       </div>
     </div>

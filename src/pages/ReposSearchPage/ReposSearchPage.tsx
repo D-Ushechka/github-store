@@ -14,6 +14,10 @@ const ReposSearchPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [repoList, setRepoList] = useState<RepoItem[]>([]);
 
+  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setEnteredText(event.target.value);
+  };
+
   React.useEffect(() => {
     const gitHubStore = new GitHubStore();
     gitHubStore
@@ -27,12 +31,8 @@ const ReposSearchPage = () => {
       });
   }, []);
 
-  // eslint-disable-next-line no-console
-  // console.log(repoList);
-
-  // const handleClick = () => alert('Hey-hey!');
   const handleClick = () => {
-    setEnteredText(enteredText);
+    setIsLoading(true);
     const gitHubStore = new GitHubStore();
     gitHubStore
       .getOrganizationReposList({
@@ -43,20 +43,21 @@ const ReposSearchPage = () => {
           setRepoList(result.data);
         } else setRepoList([]);
       });
+    return setIsLoading(false);
   };
 
   return (
     <div className="container">
-      <form action="" method="get" className="search-bar">
+      <div className="search-bar">
         <Input
           value={enteredText}
           placeholder="Введите название организации"
-          onChange={(e) => setEnteredText(e.target.value)}
+          onChange={onChange}
         />
         <Button onClick={handleClick} disabled={isLoading}>
           <SearchIcon />
         </Button>
-      </form>
+      </div>
       <div className="repos-list">
         {repoList.map((it) => (
           <RepoTile key={it.id} item={it} />

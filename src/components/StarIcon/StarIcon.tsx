@@ -1,3 +1,5 @@
+import React from 'react';
+
 const StarIcon = () => {
   return (
     <svg
@@ -17,4 +19,4 @@ const StarIcon = () => {
   );
 };
 
-export default StarIcon;
+export default React.memo(StarIcon);
