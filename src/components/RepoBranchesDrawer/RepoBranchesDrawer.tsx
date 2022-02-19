@@ -6,7 +6,7 @@ import { Drawer } from 'antd';
 
 export type RepoBranchesDrawerProps = {
   selectedRepo: RepoItem | null;
-  onClose?: (e: any) => void;
+  onClose: (e: any) => void;
 };
 
 const RepoBranchesDrawer: React.FC<RepoBranchesDrawerProps> = ({
@@ -29,12 +29,12 @@ const RepoBranchesDrawer: React.FC<RepoBranchesDrawerProps> = ({
           setBranchesList(result.data);
         } else setBranchesList([]);
       });
-  }, []);
+  }, [selectedRepo]);
 
   return (
     <Drawer
       onClose={onClose}
-      visible={true}
+      visible={!!selectedRepo}
       title={<div>Ветки репозитория {selectedRepo?.name}</div>}
     >
       {branchesList.map((it) => (

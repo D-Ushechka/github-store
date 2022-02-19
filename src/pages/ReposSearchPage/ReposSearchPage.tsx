@@ -14,11 +14,7 @@ const ReposSearchPage = () => {
   const [enteredText, setEnteredText] = useState('ktsstudio');
   const [isLoading, setIsLoading] = useState(false);
   const [repoList, setRepoList] = useState<RepoItem[]>([]);
-  const [indexChosenRepo, setIndexChosenRepo] = useState<null | number>(null);
-
-  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setEnteredText(event.target.value);
-  };
+  const [ChosenRepo, setChosenRepo] = useState<null | RepoItem>(null);
 
   React.useEffect(() => {
     const gitHubStore = new GitHubStore();
@@ -33,8 +29,12 @@ const ReposSearchPage = () => {
       });
   }, []);
 
+  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setEnteredText(event.target.value);
+  };
+
   const closeRepoBranchesDrawer = (e: React.MouseEvent) => {
-    setIndexChosenRepo(null);
+    setChosenRepo(null);
   };
 
   const buttonClick = (e: React.MouseEvent) => {
@@ -52,20 +52,12 @@ const ReposSearchPage = () => {
     return setIsLoading(false);
   };
 
-  const setRepoBranchesDrawer = () => {
-    if (indexChosenRepo !== null)
-      return (
-        <RepoBranchesDrawer
-          selectedRepo={repoList[indexChosenRepo]}
-          onClose={closeRepoBranchesDrawer}
-        />
-      );
-  };
-
   return (
     <div className="container">
-      {setRepoBranchesDrawer()}
-
+      <RepoBranchesDrawer
+        selectedRepo={ChosenRepo}
+        onClose={closeRepoBranchesDrawer}
+      />
       <div className="search-bar">
         <Input
           value={enteredText}
@@ -77,12 +69,12 @@ const ReposSearchPage = () => {
         </Button>
       </div>
       <div className="repos-list">
-        {repoList.map((it, index) => (
+        {repoList.map((it) => (
           <RepoTile
             key={it.id}
             item={it}
             onClick={(e) => {
-              setIndexChosenRepo(index);
+              setChosenRepo(it);
             }}
           />
         ))}
