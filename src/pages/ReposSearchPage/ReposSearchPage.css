@@ -1,3 +1,5 @@
+@import "~antd/dist/antd.css";
+
 :root {
   --accent-color: #ff5555;
   --hint-color: #7e7e7e;

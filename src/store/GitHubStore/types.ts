@@ -29,6 +29,14 @@ export interface IGitHubStore {
   getOrganizationReposList(
     params: GetOrganizationReposListParams
   ): Promise<ApiResponse<RepoItem[], ErrorAnswer>>;
+
+  postUserRepo(
+    params: PostUserRepoParam
+  ): Promise<ApiResponse<SuccesRepo, ErrorAnswer>>;
+
+  getBranchesList(
+    params: GetBranchesListParams
+  ): Promise<ApiResponse<BranchItem[], ErrorAnswer>>;
 }
 
 export type PostUserRepoParam = {
@@ -44,8 +52,11 @@ export type SuccesRepo = {
   url: string;
 };
 
-export interface IGitHubStore {
-  postUserRepo(
-    params: PostUserRepoParam
-  ): Promise<ApiResponse<SuccesRepo, ErrorAnswer>>;
-}
+export type GetBranchesListParams = {
+  owner: string;
+  repo: string;
+};
+
+export type BranchItem = {
+  name: string;
+};

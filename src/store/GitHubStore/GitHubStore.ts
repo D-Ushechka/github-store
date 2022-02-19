@@ -8,6 +8,8 @@ import {
   PostUserRepoParam,
   ErrorAnswer,
   SuccesRepo,
+  GetBranchesListParams,
+  BranchItem,
 } from './types';
 
 export default class GitHubStore implements IGitHubStore {
@@ -36,6 +38,17 @@ export default class GitHubStore implements IGitHubStore {
         description: params.repoDescription,
         private: params.repoPrivate,
       },
+    });
+  }
+
+  async getBranchesList(
+    params: GetBranchesListParams
+  ): Promise<ApiResponse<BranchItem[], ErrorAnswer>> {
+    return await this.apiStore.request({
+      method: HTTPMethod.GET,
+      endpoint: '/repos/' + params.owner + '/' + params.repo + '/branches',
+      headers: {},
+      data: {},
     });
   }
 }
