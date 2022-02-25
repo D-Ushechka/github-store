@@ -1,0 +1,8 @@
+button {
+  border: none;
+  box-shadow: none;
+}
+
+input {
+  outline: 0;
+}

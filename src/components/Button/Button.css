@@ -1,0 +1,15 @@
+@import "@styles/reset.css";
+
+.search-button {
+  padding: 14px 16px;
+  background: var(--accent-color);
+  border-radius: var(--block-border-radius);
+}
+
+.search-button_hover:hover {
+  opacity: 0.7;
+}
+
+.search-button_disabled:disabled {
+  background: var(--button-disabled-color);
+}

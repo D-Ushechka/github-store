@@ -1,10 +1,6 @@
 {
+  "extends": "./tsconfig.paths.json",
   "compilerOptions": {
-    "baseUrl": "./src",
-    "paths": {
-      "shared/*": ["shared/*"],
-      "store/*": ["store/*"],
-    },
     "target": "es5",
     "lib": [
       "dom",
