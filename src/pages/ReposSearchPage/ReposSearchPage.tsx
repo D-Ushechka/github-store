@@ -29,8 +29,8 @@ const ReposSearchPage = () => {
     getOrgReposList(gitHubStore);
   }, []);
 
-  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setEnteredText(event.target.value);
+  const onChange = (value: string) => {
+    setEnteredText(value);
   };
 
   const closeRepoBranchesDrawer = () => {

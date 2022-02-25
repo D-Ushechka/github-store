@@ -14,11 +14,11 @@
   color: var(--hint-color);
 }
 
-.search-input_focus:focus {
+.search-input:focus {
   border: 1px solid var(--accent-color);
 }
 
-.search-input_disabled:disabled {
+.search-input:disabled {
   background: var(--input-disabled-color);
   color: var(--hint-color);
 }

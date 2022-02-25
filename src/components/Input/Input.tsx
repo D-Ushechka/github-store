@@ -5,7 +5,7 @@ import './Input.css';
 export type InputProps = {
   value: string;
   placeholder?: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: (value: string) => void;
 };
 
 const Input: React.FC<InputProps> = ({
@@ -13,13 +13,16 @@ const Input: React.FC<InputProps> = ({
   placeholder = 'Введите название организации',
   onChange,
 }) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
+    onChange(e.target.value);
+
   return (
     <input
-      className="search-input search-input_disabled search-input_focus"
+      className="search-input"
       placeholder={placeholder}
       type="text"
       value={value}
-      onChange={onChange}
+      onChange={handleChange}
     />
   );
 };
