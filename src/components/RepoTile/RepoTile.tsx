@@ -7,7 +7,7 @@ import { RepoItem } from '@store/GitHubStore/types';
 
 export type RepoTileProps = {
   item: RepoItem;
-  onClick?: (e: React.MouseEvent) => void;
+  onClick: (e: React.MouseEvent) => void;
 };
 
 const RepoTile: React.FC<RepoTileProps> = ({ item, onClick }) => {
@@ -16,7 +16,11 @@ const RepoTile: React.FC<RepoTileProps> = ({ item, onClick }) => {
       <Avatar
         src={item.owner.avatar_url}
         alt="avatar"
-        letter={item.owner.login[0].toUpperCase()}
+        letter={
+          item.owner.login.length
+            ? item.owner.login[0].toUpperCase()
+            : undefined
+        }
       />
       <div className="content">
         <div className="repo-name">{item.name}</div>
@@ -40,4 +44,4 @@ const RepoTile: React.FC<RepoTileProps> = ({ item, onClick }) => {
   );
 };
 
-export default RepoTile;
+export default React.memo(RepoTile);

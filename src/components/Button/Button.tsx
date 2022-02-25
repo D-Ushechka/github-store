@@ -4,17 +4,23 @@ import './Button.css';
 export type ButtonProps = {
   onClick: (e: React.MouseEvent) => void;
   children: React.ReactNode;
-  disabled: boolean;
+  disabled?: boolean;
 };
 
-const Button: React.FC<ButtonProps> = ({ onClick, children, disabled }) => (
-  <button
-    className="search-button search-button_hover search-button_disabled"
-    onClick={onClick}
-    disabled={disabled}
-  >
-    {children}
-  </button>
-);
+const Button: React.FC<ButtonProps> = ({ onClick, children, disabled }) => {
+  var classNames = require('classnames');
 
-export default Button;
+  return (
+    <button
+      className={classNames('search-button', 'search-button_hover', {
+        'search-button_disabled': disabled,
+      })}
+      onClick={onClick}
+      disabled={disabled}
+    >
+      {children}
+    </button>
+  );
+};
+
+export default React.memo(Button);

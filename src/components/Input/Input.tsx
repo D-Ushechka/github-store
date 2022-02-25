@@ -1,13 +1,18 @@
 import React from 'react';
+
 import './Input.css';
 
 export type InputProps = {
   value: string;
-  placeholder: string;
+  placeholder?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-const Input: React.FC<InputProps> = ({ value, placeholder, onChange }) => {
+const Input: React.FC<InputProps> = ({
+  value,
+  placeholder = 'Введите название организации',
+  onChange,
+}) => {
   return (
     <input
       className="search-input search-input_disabled search-input_focus"
@@ -19,4 +24,4 @@ const Input: React.FC<InputProps> = ({ value, placeholder, onChange }) => {
   );
 };
 
-export default Input;
+export default React.memo(Input);

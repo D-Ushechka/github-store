@@ -14,3 +14,7 @@
 
   min-width: 80px;
 }
+
+.avatar_accent {
+  background-color: var(--accent-color);
+}

@@ -16,39 +16,30 @@ const ReposSearchPage = () => {
   const [repoList, setRepoList] = useState<RepoItem[]>([]);
   const [ChosenRepo, setChosenRepo] = useState<null | RepoItem>(null);
 
+  const getOrgReposList = async (gitHubStore: GitHubStore) => {
+    const result = await gitHubStore.getOrganizationReposList({
+      organizationName: enteredText,
+    });
+    result.success ? setRepoList(result.data) : setRepoList([]);
+  };
+
+  const gitHubStore = new GitHubStore();
+
   React.useEffect(() => {
-    const gitHubStore = new GitHubStore();
-    gitHubStore
-      .getOrganizationReposList({
-        organizationName: enteredText,
-      })
-      .then((result) => {
-        if (result.success) {
-          setRepoList(result.data);
-        } else setRepoList([]);
-      });
+    getOrgReposList(gitHubStore);
   }, []);
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEnteredText(event.target.value);
   };
 
-  const closeRepoBranchesDrawer = (e: React.MouseEvent) => {
+  const closeRepoBranchesDrawer = () => {
     setChosenRepo(null);
   };
 
   const buttonClick = (e: React.MouseEvent) => {
     setIsLoading(true);
-    const gitHubStore = new GitHubStore();
-    gitHubStore
-      .getOrganizationReposList({
-        organizationName: enteredText,
-      })
-      .then((result) => {
-        if (result.success) {
-          setRepoList(result.data);
-        } else setRepoList([]);
-      });
+    getOrgReposList(gitHubStore);
     return setIsLoading(false);
   };
 
@@ -57,13 +48,10 @@ const ReposSearchPage = () => {
       <RepoBranchesDrawer
         selectedRepo={ChosenRepo}
         onClose={closeRepoBranchesDrawer}
+        gitHubStore={gitHubStore}
       />
       <div className="search-bar">
-        <Input
-          value={enteredText}
-          placeholder="Введите название организации"
-          onChange={onChange}
-        />
+        <Input value={enteredText} onChange={onChange} />
         <Button onClick={buttonClick} disabled={isLoading}>
           <SearchIcon />
         </Button>
