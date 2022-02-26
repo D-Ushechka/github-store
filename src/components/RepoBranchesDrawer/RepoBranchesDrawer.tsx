@@ -1,42 +1,44 @@
 import React, { useState } from 'react';
 
 import GitHubStore from '@store/GitHubStore';
-import { BranchItem, RepoItem } from '@store/GitHubStore/types';
+import { BranchItem } from '@store/GitHubStore/types';
 import { Drawer } from 'antd';
+import { useParams } from 'react-router-dom';
 
 export type RepoBranchesDrawerProps = {
-  selectedRepo: RepoItem | null;
+  organization: string;
   onClose: () => void;
   gitHubStore: GitHubStore;
 };
 
 const RepoBranchesDrawer: React.FC<RepoBranchesDrawerProps> = ({
-  selectedRepo,
+  organization,
   onClose,
   gitHubStore,
 }) => {
+  const { name } = useParams<{ name: string }>();
   const [branchesList, setBranchesList] = useState<BranchItem[]>([]);
 
   const getRepoBranches = async (gitHubStore: GitHubStore) => {
-    if (!selectedRepo) return;
+    if (!name) return;
 
     const result = await gitHubStore.getBranchesList({
-      owner: selectedRepo.owner.login,
-      repo: selectedRepo.name,
+      owner: organization,
+      repo: name,
     });
     result.success ? setBranchesList(result.data) : setBranchesList([]);
   };
 
   React.useEffect(() => {
-    if (!selectedRepo) return;
+    if (!name) return;
     getRepoBranches(gitHubStore);
-  }, [selectedRepo]);
+  }, [name]);
 
   return (
     <Drawer
       onClose={onClose}
-      visible={!!selectedRepo}
-      title={`Ветки репозитория ${selectedRepo?.name}`}
+      visible={!!name}
+      title={`Ветки репозитория ${name}`}
     >
       {branchesList.map((it) => (
         <div key={it.name}>{it.name}</div>

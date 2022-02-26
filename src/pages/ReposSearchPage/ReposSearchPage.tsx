@@ -9,13 +9,12 @@ import SearchIcon from '@components/SearchIcon';
 import './ReposSearchPage.css';
 import GitHubStore from '@store/GitHubStore/GitHubStore';
 import { RepoItem } from '@store/GitHubStore/types';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 const ReposSearchPage = () => {
   const [enteredText, setEnteredText] = useState('ktsstudio');
   const [isLoading, setIsLoading] = useState(false);
   const [repoList, setRepoList] = useState<RepoItem[]>([]);
-  const [ChosenRepo, setChosenRepo] = useState<null | RepoItem>(null);
 
   const getOrgReposList = async (gitHubStore: GitHubStore) => {
     const result = await gitHubStore.getOrganizationReposList({
@@ -34,8 +33,10 @@ const ReposSearchPage = () => {
     setEnteredText(value);
   };
 
+  const history = useHistory();
+
   const closeRepoBranchesDrawer = () => {
-    setChosenRepo(null);
+    history.push('/repos');
   };
 
   const buttonClick = (e: React.MouseEvent) => {
@@ -47,7 +48,7 @@ const ReposSearchPage = () => {
   return (
     <div className="container">
       <RepoBranchesDrawer
-        selectedRepo={ChosenRepo}
+        organization={enteredText}
         onClose={closeRepoBranchesDrawer}
         gitHubStore={gitHubStore}
       />
@@ -60,13 +61,7 @@ const ReposSearchPage = () => {
       <div className="repos-list">
         {repoList.map((it) => (
           <Link to={`/repos/${it.name}`}>
-            <RepoTile
-              key={it.id}
-              item={it}
-              onClick={(e) => {
-                setChosenRepo(it);
-              }}
-            />{' '}
+            <RepoTile key={it.id} item={it} />{' '}
           </Link>
         ))}
       </div>

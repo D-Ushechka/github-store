@@ -7,7 +7,7 @@ import { RepoItem } from '@store/GitHubStore/types';
 
 export type RepoTileProps = {
   item: RepoItem;
-  onClick: (e: React.MouseEvent) => void;
+  onClick?: (e: React.MouseEvent) => void;
 };
 
 const RepoTile: React.FC<RepoTileProps> = ({ item, onClick }) => {
