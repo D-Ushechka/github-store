@@ -1,16 +1,4 @@
-@import "~antd/dist/antd.css";
-
-:root {
-  --accent-color: #ff5555;
-  --hint-color: #7e7e7e;
-  --default-color: #000000;
-  --border-color: #d9d9d9;
-  --bg-color: #ffffff;
-  --link-hover-color: #208fbf;
-  --input-disabled-color: #f9f9f9;
-  --button-disabled-color: #d9d9d9;
-  --block-border-radius: 6px;
-}
+@import "@styles/varibles.scss";
 
 body {
   margin: 0;

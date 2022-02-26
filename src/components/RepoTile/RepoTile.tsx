@@ -1,9 +1,10 @@
 import React from 'react';
 
 import Avatar from '@components/Avatar';
-import './RepoTile.css';
 import StarIcon from '@components/StarIcon';
 import { RepoItem } from '@store/GitHubStore/types';
+
+import styles from './RepoTile.module.scss';
 
 export type RepoTileProps = {
   item: RepoItem;
@@ -12,7 +13,10 @@ export type RepoTileProps = {
 
 const RepoTile: React.FC<RepoTileProps> = ({ item, onClick }) => {
   return (
-    <div className="git-repo-tile git-repo-tile_hover" onClick={onClick}>
+    <div
+      className={`${styles['git-repo-tile']} ${styles['git-repo-tile_hover']}`}
+      onClick={onClick}
+    >
       <Avatar
         src={item.owner.avatar_url}
         alt="avatar"
@@ -22,15 +26,17 @@ const RepoTile: React.FC<RepoTileProps> = ({ item, onClick }) => {
             : undefined
         }
       />
-      <div className="content">
-        <div className="repo-name">{item.name}</div>
-        <div className="org-name org-name_hover">{item.owner.login}</div>
-        <div className="info">
-          <div className="stars">
+      <div className={styles.content}>
+        <div className={styles['repo-name']}>{item.name}</div>
+        <div className={`${styles['org-name']} ${styles['org-name_hover']}`}>
+          {item.owner.login}
+        </div>
+        <div className={styles.info}>
+          <div className={styles.stars}>
             <StarIcon />
-            <p className="stars__p">{item.stargazers_count}</p>
+            <p className={styles.stars__p}>{item.stargazers_count}</p>
           </div>
-          <div className="date">
+          <div className={styles.date}>
             Updated{' '}
             {item.updated_at.slice(8, 10) +
               '.' +

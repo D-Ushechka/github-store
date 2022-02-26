@@ -1,5 +1,6 @@
 import React from 'react';
-import './Avatar.css';
+
+import styles from './Avatar.module.scss';
 
 export type AvatarProps = {
   src?: string;
@@ -9,10 +10,10 @@ export type AvatarProps = {
 
 const Avatar: React.FC<AvatarProps> = ({ src, alt, letter }) => {
   if (!src) {
-    return <div className="avatar avatar_accent">{letter}</div>;
+    return <div className={styles['avatar avatar_accent']}>{letter}</div>;
   }
 
-  return <img className="avatar" src={src} alt={alt} />;
+  return <img className={styles.avatar} src={src} alt={alt} />;
 };
 
 export default React.memo(Avatar);

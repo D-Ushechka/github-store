@@ -1,6 +1,6 @@
 import React from 'react';
 
-import './Input.css';
+import styles from './Input.module.scss';
 
 export type InputProps = {
   value: string;
@@ -18,7 +18,7 @@ const Input: React.FC<InputProps> = ({
 
   return (
     <input
-      className="search-input"
+      className={styles['search-input']}
       placeholder={placeholder}
       type="text"
       value={value}

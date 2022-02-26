@@ -1,0 +1,25 @@
+@import "@styles/reset.scss";
+@import "@styles/varibles.scss";
+
+.search-input {
+  font-size: 14px;
+  line-height: 16px;
+  color: $default-color;
+  box-sizing: border-box;
+  border: 1px solid $border-color;
+  border-radius: $block-border-radius;
+  padding-left: 10px;
+
+  &:focus {
+    border: 1px solid $accent-color;
+  }
+
+  &::placeholder {
+    color: $hint-color;
+  }
+
+  &:disabled {
+    background: $input-disabled-color;
+    color: $hint-color;
+  }
+}

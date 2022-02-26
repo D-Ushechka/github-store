@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { createContext, useContext, useState } from 'react';
 import React from 'react';
 
 import Button from '@components/Button';
@@ -6,17 +6,34 @@ import Input from '@components/Input';
 import RepoBranchesDrawer from '@components/RepoBranchesDrawer';
 import RepoTile from '@components/RepoTile';
 import SearchIcon from '@components/SearchIcon';
-import './ReposSearchPage.css';
 import GitHubStore from '@store/GitHubStore/GitHubStore';
 import { RepoItem } from '@store/GitHubStore/types';
 import { Link, useHistory } from 'react-router-dom';
+
+import styles from './ReposSearchPage.module.scss';
+
+export type ReposContext = {
+  repoList: RepoItem[];
+  isLoading: boolean;
+  getOrgReposList: () => void;
+};
+
+const reposContext = createContext<ReposContext>({
+  repoList: [],
+  isLoading: false,
+  getOrgReposList: () => {},
+});
+
+const Provider = reposContext.Provider;
+
+export const useReposContext = () => useContext(reposContext);
 
 const ReposSearchPage = () => {
   const [enteredText, setEnteredText] = useState('ktsstudio');
   const [isLoading, setIsLoading] = useState(false);
   const [repoList, setRepoList] = useState<RepoItem[]>([]);
 
-  const getOrgReposList = async (gitHubStore: GitHubStore) => {
+  const getOrgReposList = async () => {
     const result = await gitHubStore.getOrganizationReposList({
       organizationName: enteredText,
     });
@@ -26,7 +43,7 @@ const ReposSearchPage = () => {
   const gitHubStore = new GitHubStore();
 
   React.useEffect(() => {
-    getOrgReposList(gitHubStore);
+    getOrgReposList();
   }, []);
 
   const onChange = (value: string) => {
@@ -41,31 +58,33 @@ const ReposSearchPage = () => {
 
   const buttonClick = (e: React.MouseEvent) => {
     setIsLoading(true);
-    getOrgReposList(gitHubStore);
+    getOrgReposList();
     return setIsLoading(false);
   };
 
   return (
-    <div className="container">
+    <Provider value={{ repoList, isLoading, getOrgReposList }}>
       <RepoBranchesDrawer
         organization={enteredText}
         onClose={closeRepoBranchesDrawer}
         gitHubStore={gitHubStore}
       />
-      <div className="search-bar">
-        <Input value={enteredText} onChange={onChange} />
-        <Button onClick={buttonClick} disabled={isLoading}>
-          <SearchIcon />
-        </Button>
+      <div className={styles.container}>
+        <div className={styles['search-bar']}>
+          <Input value={enteredText} onChange={onChange} />
+          <Button onClick={buttonClick} disabled={isLoading}>
+            <SearchIcon />
+          </Button>
+        </div>
+        <div className={styles['repos-list']}>
+          {repoList.map((it) => (
+            <Link to={`/repos/${it.name}`}>
+              <RepoTile key={it.id} item={it} />{' '}
+            </Link>
+          ))}
+        </div>
       </div>
-      <div className="repos-list">
-        {repoList.map((it) => (
-          <Link to={`/repos/${it.name}`}>
-            <RepoTile key={it.id} item={it} />{' '}
-          </Link>
-        ))}
-      </div>
-    </div>
+    </Provider>
   );
 };
 
