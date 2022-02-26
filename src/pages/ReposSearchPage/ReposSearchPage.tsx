@@ -9,6 +9,7 @@ import SearchIcon from '@components/SearchIcon';
 import './ReposSearchPage.css';
 import GitHubStore from '@store/GitHubStore/GitHubStore';
 import { RepoItem } from '@store/GitHubStore/types';
+import { Link } from 'react-router-dom';
 
 const ReposSearchPage = () => {
   const [enteredText, setEnteredText] = useState('ktsstudio');
@@ -58,13 +59,15 @@ const ReposSearchPage = () => {
       </div>
       <div className="repos-list">
         {repoList.map((it) => (
-          <RepoTile
-            key={it.id}
-            item={it}
-            onClick={(e) => {
-              setChosenRepo(it);
-            }}
-          />
+          <Link to={`/repos/${it.name}`}>
+            <RepoTile
+              key={it.id}
+              item={it}
+              onClick={(e) => {
+                setChosenRepo(it);
+              }}
+            />{' '}
+          </Link>
         ))}
       </div>
     </div>
