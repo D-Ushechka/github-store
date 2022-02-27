@@ -1,9 +1,13 @@
 import React from 'react';
 
-const SearchIcon = () => {
+type SearchIconParam = {
+  className: string;
+};
+
+const SearchIcon: React.FC<SearchIconParam> = ({ className }) => {
   return (
     <svg
-      className="search-icon"
+      className={className}
       xmlns="http://www.w3.org/2000/svg"
       width="18"
       height="18"

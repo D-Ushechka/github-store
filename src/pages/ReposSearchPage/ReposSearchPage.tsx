@@ -8,6 +8,7 @@ import RepoTile from '@components/RepoTile';
 import SearchIcon from '@components/SearchIcon';
 import GitHubStore from '@store/GitHubStore/GitHubStore';
 import { RepoItem } from '@store/GitHubStore/types';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import { Link, useHistory } from 'react-router-dom';
 
 import styles from './ReposSearchPage.module.scss';
@@ -32,10 +33,13 @@ const ReposSearchPage = () => {
   const [enteredText, setEnteredText] = useState('ktsstudio');
   const [isLoading, setIsLoading] = useState(false);
   const [repoList, setRepoList] = useState<RepoItem[]>([]);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
 
   const getOrgReposList = async () => {
     const result = await gitHubStore.getOrganizationReposList({
       organizationName: enteredText,
+      perPage: 10,
     });
     result.success ? setRepoList(result.data) : setRepoList([]);
   };
@@ -62,6 +66,18 @@ const ReposSearchPage = () => {
     return setIsLoading(false);
   };
 
+  const getReposListMore = async () => {
+    setPage((prevValue) => prevValue + 1);
+    const result = await gitHubStore.getOrganizationReposList({
+      organizationName: enteredText,
+      perPage: 20,
+      page: page,
+    });
+    if (result.success && result.data.length !== 0)
+      setRepoList((prevList) => prevList.concat(result.data));
+    else setHasMore(false);
+  };
+
   return (
     <Provider value={{ repoList, isLoading, getOrgReposList }}>
       <RepoBranchesDrawer
@@ -73,16 +89,29 @@ const ReposSearchPage = () => {
         <div className={styles['search-bar']}>
           <Input value={enteredText} onChange={onChange} />
           <Button onClick={buttonClick} disabled={isLoading}>
-            <SearchIcon />
+            <SearchIcon className={styles['search-icon']} />
           </Button>
         </div>
-        <div className={styles['repos-list']}>
-          {repoList.map((it) => (
-            <Link to={`/repos/${it.name}`}>
-              <RepoTile key={it.id} item={it} />{' '}
-            </Link>
-          ))}
-        </div>
+
+        <InfiniteScroll
+          dataLength={repoList.length}
+          next={getReposListMore}
+          hasMore={hasMore}
+          loader={<h4>Loading...</h4>}
+          endMessage={
+            <p style={{ textAlign: 'center' }}>
+              <b>You have seen it all</b>
+            </p>
+          }
+        >
+          <div className={styles['repos-list']}>
+            {repoList.map((it) => (
+              <Link to={`/repos/${it.name}`}>
+                <RepoTile key={it.id} item={it} />{' '}
+              </Link>
+            ))}
+          </div>
+        </InfiniteScroll>
       </div>
     </Provider>
   );
