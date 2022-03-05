@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext } from 'react';
 import React from 'react';
 
 import Button from '@components/Button';
@@ -7,7 +7,7 @@ import RepoBranchesDrawer from '@components/RepoBranchesDrawer';
 import RepoTile from '@components/RepoTile';
 import SearchIcon from '@components/SearchIcon';
 import GitHubStore from '@store/GitHubStore/GitHubStore';
-import { RepoItem } from '@store/GitHubStore/types';
+import { IGitHubStore, RepoItem } from '@store/GitHubStore/types';
 import ReposListStore from '@store/ReposListStore';
 import { Meta } from '@utils/meta';
 import { useLocalStore } from '@utils/useLocalStore';
@@ -21,12 +21,16 @@ export type ReposContext = {
   repoList?: RepoItem[];
   isLoading?: boolean;
   getOrgReposList?: () => void;
+  gitHubStore?: IGitHubStore;
+  reposListStore?: ReposListStore;
 };
 
 const reposContext = createContext<ReposContext>({
   repoList: [],
   isLoading: false,
   getOrgReposList: () => {},
+  // gitHubStore: new GitHubStore(),
+  // reposListStore: new ReposListStore(gitHubStore),
 });
 
 const Provider = reposContext.Provider;

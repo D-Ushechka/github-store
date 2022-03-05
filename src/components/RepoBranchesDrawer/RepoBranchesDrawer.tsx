@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 
 import GitHubStore from '@store/GitHubStore';
-import { BranchItem } from '@store/GitHubStore/types';
+import RepoBranchesStore from '@store/RepoBranchesStore';
+import { useLocalStore } from '@utils/useLocalStore';
 import { Drawer } from 'antd';
+import { observer } from 'mobx-react-lite';
 import { useParams } from 'react-router-dom';
 
 export type RepoBranchesDrawerProps = {
@@ -17,22 +19,16 @@ const RepoBranchesDrawer: React.FC<RepoBranchesDrawerProps> = ({
   gitHubStore,
 }) => {
   const { name } = useParams<{ name: string }>();
-  const [branchesList, setBranchesList] = useState<BranchItem[]>([]);
-
-  const getRepoBranches = async () => {
-    if (!name) return;
-
-    const result = await gitHubStore.getBranchesList({
-      owner: organization,
-      repo: name,
-    });
-    result.success ? setBranchesList(result.data) : setBranchesList([]);
-  };
+  const repoBranchesStore = useLocalStore(
+    () => new RepoBranchesStore(gitHubStore)
+  );
 
   React.useEffect(() => {
-    if (!name) return;
-    getRepoBranches();
-  }, [name]);
+    repoBranchesStore.getRepoBranches({
+      orgName: organization,
+      repoName: name,
+    });
+  }, [name, organization, repoBranchesStore]);
 
   return (
     <Drawer
@@ -40,11 +36,11 @@ const RepoBranchesDrawer: React.FC<RepoBranchesDrawerProps> = ({
       visible={!!name}
       title={`Ветки репозитория ${name}`}
     >
-      {branchesList.map((it) => (
+      {repoBranchesStore.branchesList.map((it) => (
         <div key={it.name}>{it.name}</div>
       ))}
     </Drawer>
   );
 };
 
-export default React.memo(RepoBranchesDrawer);
+export default React.memo(observer(RepoBranchesDrawer));

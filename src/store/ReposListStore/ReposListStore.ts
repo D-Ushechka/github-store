@@ -10,9 +10,11 @@ import {
   runInAction,
 } from 'mobx';
 
+import { IReposListStore } from './types';
+
 type PrivateFields = '_meta' | '_repoList' | '_orgName' | '_page' | '_hasMore';
 
-export default class ReposListStore implements ILocalStore {
+export default class ReposListStore implements ILocalStore, IReposListStore {
   private _meta: Meta = Meta.initial;
   private _repoList: RepoItem[] = [];
   private _orgName: string = 'ktsstudio';
