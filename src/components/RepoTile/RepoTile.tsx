@@ -3,6 +3,7 @@ import React from 'react';
 import Avatar from '@components/Avatar';
 import StarIcon from '@components/StarIcon';
 import { RepoItem } from '@store/GitHubStore/types';
+import { observer } from 'mobx-react-lite';
 import { Link } from 'react-router-dom';
 
 import styles from './RepoTile.module.scss';
@@ -53,4 +54,4 @@ const RepoTile: React.FC<RepoTileProps> = ({ item, onClick }) => {
   );
 };
 
-export default React.memo(RepoTile);
+export default React.memo(observer(RepoTile));

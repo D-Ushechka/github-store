@@ -1,5 +1,6 @@
 import ApiStore from '@shared/store/ApiStore';
 import { HTTPMethod, ApiResponse } from '@shared/store/ApiStore/types';
+import { ILocalStore } from '@utils/useLocalStore';
 
 import {
   IGitHubStore,
@@ -12,7 +13,7 @@ import {
   BranchItem,
 } from './types';
 
-export default class GitHubStore implements IGitHubStore {
+export default class GitHubStore implements IGitHubStore, ILocalStore {
   private readonly apiStore = new ApiStore('https://api.github.com');
 
   async getOrganizationReposList(
@@ -51,4 +52,6 @@ export default class GitHubStore implements IGitHubStore {
       data: {},
     });
   }
+
+  destroy(): void {}
 }
