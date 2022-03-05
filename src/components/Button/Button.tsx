@@ -9,17 +9,9 @@ export type ButtonProps = {
 };
 
 const Button: React.FC<ButtonProps> = ({ onClick, children, disabled }) => {
-  var classNames = require('classnames');
-
   return (
     <button
-      className={classNames(
-        styles['search-button'],
-        styles['search-button_hover'],
-        {
-          [styles['search-button_disabled']]: disabled,
-        }
-      )}
+      className={styles['search-button']}
       onClick={onClick}
       disabled={disabled}
     >

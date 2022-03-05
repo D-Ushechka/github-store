@@ -1,9 +1,7 @@
 @import "@styles/varibles.scss";
 
 .avatar {
-  height: 80px;
-  width: 80px;
-  border-radius: 40px;
+  @include circle(80px, 50%);
 
   color: $bg-color;
   font-weight: bold;

@@ -19,7 +19,7 @@ const RepoBranchesDrawer: React.FC<RepoBranchesDrawerProps> = ({
   const { name } = useParams<{ name: string }>();
   const [branchesList, setBranchesList] = useState<BranchItem[]>([]);
 
-  const getRepoBranches = async (gitHubStore: GitHubStore) => {
+  const getRepoBranches = async () => {
     if (!name) return;
 
     const result = await gitHubStore.getBranchesList({
@@ -31,7 +31,7 @@ const RepoBranchesDrawer: React.FC<RepoBranchesDrawerProps> = ({
 
   React.useEffect(() => {
     if (!name) return;
-    getRepoBranches(gitHubStore);
+    getRepoBranches();
   }, [name]);
 
   return (

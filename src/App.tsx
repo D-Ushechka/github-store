@@ -6,8 +6,7 @@ const App = () => {
   return (
     <BrowserRouter>
       <Switch>
-        <Route exact path="/repos" component={ReposSearchPage} />
-        <Route path="/repos/:name" component={ReposSearchPage} />
+        <Route exact path="/repos/:name?" component={ReposSearchPage} />
         <Redirect to="/repos" />
       </Switch>
     </BrowserRouter>

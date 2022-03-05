@@ -10,7 +10,9 @@ export type AvatarProps = {
 
 const Avatar: React.FC<AvatarProps> = ({ src, alt, letter }) => {
   if (!src) {
-    return <div className={styles['avatar avatar_accent']}>{letter}</div>;
+    return (
+      <div className={`${styles.avatar} ${styles.avatar_accent}`}>{letter}</div>
+    );
   }
 
   return <img className={styles.avatar} src={src} alt={alt} />;

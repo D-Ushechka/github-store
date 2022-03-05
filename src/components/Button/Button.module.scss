@@ -6,11 +6,11 @@
   background: $accent-color;
   border-radius: $block-border-radius;
 
-  &_hover:hover {
+  &:hover {
     opacity: 0.7;
   }
 
-  &_disabled:disabled {
+  &:disabled {
     background: $button-disabled-color;
   }
 }

@@ -9,14 +9,14 @@ import SearchIcon from '@components/SearchIcon';
 import GitHubStore from '@store/GitHubStore/GitHubStore';
 import { RepoItem } from '@store/GitHubStore/types';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 import styles from './ReposSearchPage.module.scss';
 
 export type ReposContext = {
   repoList: RepoItem[];
   isLoading: boolean;
-  getOrgReposList: () => void;
+  getOrgReposList?: () => void;
 };
 
 const reposContext = createContext<ReposContext>({
@@ -36,23 +36,29 @@ const ReposSearchPage = () => {
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
 
-  const getOrgReposList = async () => {
+  const getOrgReposList = async (initial: boolean) => {
+    setIsLoading(true);
+    if (initial) {
+      setPage((prevValue) => prevValue + 1);
+    }
     const result = await gitHubStore.getOrganizationReposList({
       organizationName: enteredText,
-      perPage: 10,
+      perPage: 20,
+      page: page,
     });
-    result.success ? setRepoList(result.data) : setRepoList([]);
+    setIsLoading(false);
+    if (result.success && result.data.length !== 0)
+      setRepoList((prevList) => prevList.concat(result.data));
+    else setHasMore(false);
   };
 
   const gitHubStore = new GitHubStore();
 
   React.useEffect(() => {
-    getOrgReposList();
+    getOrgReposList(false);
   }, []);
 
-  const onChange = (value: string) => {
-    setEnteredText(value);
-  };
+  const onChange = setEnteredText;
 
   const history = useHistory();
 
@@ -61,25 +67,16 @@ const ReposSearchPage = () => {
   };
 
   const buttonClick = (e: React.MouseEvent) => {
-    setIsLoading(true);
-    getOrgReposList();
-    return setIsLoading(false);
+    setRepoList([]);
+    getOrgReposList(false);
   };
 
   const getReposListMore = async () => {
-    setPage((prevValue) => prevValue + 1);
-    const result = await gitHubStore.getOrganizationReposList({
-      organizationName: enteredText,
-      perPage: 20,
-      page: page,
-    });
-    if (result.success && result.data.length !== 0)
-      setRepoList((prevList) => prevList.concat(result.data));
-    else setHasMore(false);
+    getOrgReposList(true);
   };
 
   return (
-    <Provider value={{ repoList, isLoading, getOrgReposList }}>
+    <Provider value={{ repoList, isLoading }}>
       <RepoBranchesDrawer
         organization={enteredText}
         onClose={closeRepoBranchesDrawer}
@@ -99,16 +96,14 @@ const ReposSearchPage = () => {
           hasMore={hasMore}
           loader={<h4>Loading...</h4>}
           endMessage={
-            <p style={{ textAlign: 'center' }}>
+            <p className={styles['end-message']}>
               <b>You have seen it all</b>
             </p>
           }
         >
           <div className={styles['repos-list']}>
             {repoList.map((it) => (
-              <Link to={`/repos/${it.name}`}>
-                <RepoTile key={it.id} item={it} />{' '}
-              </Link>
+              <RepoTile key={it.id} item={it} />
             ))}
           </div>
         </InfiniteScroll>
