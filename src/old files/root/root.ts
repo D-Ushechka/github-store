@@ -11,9 +11,11 @@ export function func() {
     })
     .then((result) => {
       if (result.success) {
+        // eslint-disable-next-line no-console
         console.log(result.data.map((item) => item.name));
       }
 
+      // eslint-disable-next-line no-console
       console.log(result);
     });
 
@@ -24,5 +26,6 @@ export function func() {
       repoDescription: 'bla bla',
       repoPrivate: false,
     })
+    // eslint-disable-next-line no-console
     .then((result) => console.log(result));
 }

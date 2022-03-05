@@ -4,6 +4,8 @@ import ReactDOM from 'react-dom';
 
 import App from './App';
 
+import '@config/configureMobX.ts';
+
 ReactDOM.render(
   <React.StrictMode>
     <App />
