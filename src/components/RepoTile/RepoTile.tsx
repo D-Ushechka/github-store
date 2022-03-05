@@ -41,9 +41,9 @@ const RepoTile: React.FC<RepoTileProps> = ({ item, onClick }) => {
             </div>
             <div className={styles.date}>
               Updated{' '}
-              {item.updatedAt.getDay() +
+              {item.updatedAt.getDate().toString().padStart(2, '0') +
                 '.' +
-                item.updatedAt.getMonth() +
+                (item.updatedAt.getMonth() + 1).toString().padStart(2, '0') +
                 '.' +
                 item.updatedAt.getFullYear()}
             </div>

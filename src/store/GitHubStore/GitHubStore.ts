@@ -1,6 +1,6 @@
 import { BranchItemApi, RepoItemApi } from '@store/models';
-import ApiStore from '@store/RootStore/ApiStore';
 import { HTTPMethod, ApiResponse } from '@store/RootStore/ApiStore/types';
+import gitHubApiStore from '@store/RootStore/instance';
 import { ILocalStore } from '@utils/useLocalStore';
 
 import {
@@ -13,7 +13,7 @@ import {
 } from './types';
 
 export default class GitHubStore implements IGitHubStore, ILocalStore {
-  private readonly apiStore = new ApiStore('https://api.github.com');
+  private readonly apiStore = gitHubApiStore;
 
   async getOrganizationReposList(
     params: GetOrganizationReposListParams
