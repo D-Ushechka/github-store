@@ -1,3 +1,5 @@
+@import "@styles/varibles.scss";
+
 .git-repo-tile {
   display: flex;
   flex-direction: row;
@@ -7,9 +9,9 @@
 
   font-size: 14px;
   line-height: 16px;
-  color: var(--hint-color);
+  color: $hint-color;
 
-  border: 1px solid var(--border-color);
+  border: 1px solid $border-color;
   box-sizing: border-box;
   border-radius: 6px;
   flex-grow: 0;
@@ -32,7 +34,7 @@
   font-size: 16px;
   line-height: 19px;
   font-weight: bold;
-  color: var(--default-color);
+  color: $default-color;
 
   white-space: nowrap;
   overflow: hidden;
@@ -40,7 +42,7 @@
 }
 
 .org-name_hover:hover {
-  color: var(--link-hover-color);
+  color: $link-hover-color;
 }
 
 .info {

@@ -1,0 +1,16 @@
+@import "@styles/reset.scss";
+@import "@styles/varibles.scss";
+
+.search-button {
+  padding: 14px 16px;
+  background: $accent-color;
+  border-radius: $block-border-radius;
+
+  &:hover {
+    opacity: 0.7;
+  }
+
+  &:disabled {
+    background: $button-disabled-color;
+  }
+}

@@ -1,11 +1,12 @@
 import React from 'react';
 
-import ReposSearchPage from '@pages/ReposSearchPage';
 import ReactDOM from 'react-dom';
+
+import App from './App';
 
 ReactDOM.render(
   <React.StrictMode>
-    <ReposSearchPage />
+    <App />
   </React.StrictMode>,
   document.getElementById('root')
 );

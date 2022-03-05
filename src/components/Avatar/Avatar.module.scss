@@ -1,9 +1,9 @@
-.avatar {
-  height: 80px;
-  width: 80px;
-  border-radius: 40px;
+@import "@styles/varibles.scss";
 
-  color: var(--bg-color);
+.avatar {
+  @include circle(80px, 50%);
+
+  color: $bg-color;
   font-weight: bold;
   font-size: 40px;
   line-height: 47px;
@@ -13,8 +13,8 @@
   align-items: center;
 
   min-width: 80px;
-}
 
-.avatar_accent {
-  background-color: var(--accent-color);
+  &_accent {
+    background-color: $accent-color;
+  }
 }
