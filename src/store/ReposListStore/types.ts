@@ -1,3 +1,4 @@
 export interface IReposListStore {
-  getOrgReposList(initial: boolean): Promise<void>;
+  getReposListInit(): void;
+  getReposListMore(): void;
 }

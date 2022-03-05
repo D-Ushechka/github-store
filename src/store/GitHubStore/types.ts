@@ -1,25 +1,10 @@
-import { ApiResponse } from '@shared/store/ApiStore/types';
+import { BranchItemApi, RepoItemApi } from '@store/models';
+import { ApiResponse } from '@store/RootStore/ApiStore/types';
 
 export type GetOrganizationReposListParams = {
   organizationName: string;
   perPage?: number;
   page?: number;
-};
-
-export type GitHubRepoOwner = {
-  id: number;
-  url: string;
-  login: string;
-  avatar_url: string;
-};
-
-export type RepoItem = {
-  id: number;
-  url: string;
-  name: string;
-  owner: GitHubRepoOwner;
-  updated_at: string;
-  stargazers_count: number;
 };
 
 export type ErrorAnswer = {
@@ -30,7 +15,7 @@ export type ErrorAnswer = {
 export interface IGitHubStore {
   getOrganizationReposList(
     params: GetOrganizationReposListParams
-  ): Promise<ApiResponse<RepoItem[], ErrorAnswer>>;
+  ): Promise<ApiResponse<RepoItemApi[], ErrorAnswer>>;
 
   postUserRepo(
     params: PostUserRepoParam
@@ -38,7 +23,7 @@ export interface IGitHubStore {
 
   getBranchesList(
     params: GetBranchesListParams
-  ): Promise<ApiResponse<BranchItem[], ErrorAnswer>>;
+  ): Promise<ApiResponse<BranchItemApi[], ErrorAnswer>>;
 }
 
 export type PostUserRepoParam = {
@@ -57,8 +42,4 @@ export type SuccesRepo = {
 export type GetBranchesListParams = {
   owner: string;
   repo: string;
-};
-
-export type BranchItem = {
-  name: string;
 };

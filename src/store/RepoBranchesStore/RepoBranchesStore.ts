@@ -1,4 +1,11 @@
-import { BranchItem, IGitHubStore } from '@store/GitHubStore/types';
+import {
+  CollectionModel,
+  getInitialCollectionModel,
+  linearizeCollection,
+  normalizeCollection,
+} from '@shared/collection';
+import { IGitHubStore } from '@store/GitHubStore/types';
+import { BranchItemModel, normalizeBranchItem } from '@store/models';
 import { ILocalStore } from '@utils/useLocalStore';
 import {
   action,
@@ -16,7 +23,8 @@ export default class RepoBranchesStore
   implements ILocalStore, IRepoBranchesStore
 {
   private readonly _gitHubStore: IGitHubStore;
-  private _branchesList: BranchItem[] = [];
+  private _branchesList: CollectionModel<string, BranchItemModel> =
+    getInitialCollectionModel();
 
   constructor(gitHubStore: IGitHubStore) {
     makeObservable<RepoBranchesStore, PrivateFields>(this, {
@@ -27,14 +35,14 @@ export default class RepoBranchesStore
     this._gitHubStore = gitHubStore;
   }
 
-  get branchesList(): BranchItem[] {
-    return this._branchesList;
+  get branchesList(): BranchItemModel[] {
+    return linearizeCollection(this._branchesList);
   }
 
   async getRepoBranches(params: GetRepoBranchesParams): Promise<void> {
     if (!params.repoName) return;
 
-    this._branchesList = [];
+    this._branchesList = getInitialCollectionModel();
 
     const result = await this._gitHubStore.getBranchesList({
       owner: params.orgName,
@@ -42,7 +50,20 @@ export default class RepoBranchesStore
     });
 
     runInAction(() => {
-      if (result.success) this._branchesList = result.data;
+      if (!result.success) return;
+
+      try {
+        const list = [];
+        for (const item of result.data) {
+          list.push(normalizeBranchItem(item));
+        }
+        this._branchesList = normalizeCollection(
+          list,
+          (listItem) => listItem.name
+        );
+      } catch (e) {
+        this._branchesList = getInitialCollectionModel();
+      }
     });
   }
 

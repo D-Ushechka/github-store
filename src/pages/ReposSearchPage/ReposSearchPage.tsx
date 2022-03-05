@@ -7,7 +7,8 @@ import RepoBranchesDrawer from '@components/RepoBranchesDrawer';
 import RepoTile from '@components/RepoTile';
 import SearchIcon from '@components/SearchIcon';
 import GitHubStore from '@store/GitHubStore/GitHubStore';
-import { IGitHubStore, RepoItem } from '@store/GitHubStore/types';
+import { IGitHubStore } from '@store/GitHubStore/types';
+import { RepoItemModel } from '@store/models';
 import ReposListStore from '@store/ReposListStore';
 import { Meta } from '@utils/meta';
 import { useLocalStore } from '@utils/useLocalStore';
@@ -18,7 +19,7 @@ import { useHistory } from 'react-router-dom';
 import styles from './ReposSearchPage.module.scss';
 
 export type ReposContext = {
-  repoList?: RepoItem[];
+  repoList?: RepoItemModel[];
   isLoading?: boolean;
   getOrgReposList?: () => void;
   gitHubStore?: IGitHubStore;
@@ -42,26 +43,21 @@ const ReposSearchPage = () => {
   const reposListStore = useLocalStore(() => new ReposListStore(gitHubStore));
 
   React.useEffect(() => {
-    reposListStore.getOrgReposList(false);
+    reposListStore.getReposListInit();
   }, [reposListStore]);
 
-  const onChange = (value: string) => {
-    reposListStore.orgName = value;
-  };
+  const onChange = React.useCallback(
+    (value: string) => {
+      reposListStore.orgName = value;
+    },
+    [reposListStore]
+  );
 
   const history = useHistory();
 
-  const closeRepoBranchesDrawer = () => {
+  const closeRepoBranchesDrawer = React.useCallback(() => {
     history.push('/repos');
-  };
-
-  const buttonClick = (e: React.MouseEvent) => {
-    reposListStore.getOrgReposList(false);
-  };
-
-  const getReposListMore = async () => {
-    reposListStore.getOrgReposList(true);
-  };
+  }, [history]);
 
   return (
     <Provider value={{}}>
@@ -74,7 +70,7 @@ const ReposSearchPage = () => {
         <div className={styles['search-bar']}>
           <Input value={reposListStore.orgName} onChange={onChange} />
           <Button
-            onClick={buttonClick}
+            onClick={reposListStore.getReposListInit}
             disabled={reposListStore.meta === Meta.loading}
           >
             <SearchIcon className={styles['search-icon']} />
@@ -83,7 +79,7 @@ const ReposSearchPage = () => {
 
         <InfiniteScroll
           dataLength={reposListStore.repoList.length}
-          next={getReposListMore}
+          next={reposListStore.getReposListMore}
           hasMore={reposListStore.hasMore}
           loader={<h4>Loading...</h4>}
           endMessage={

@@ -1,5 +1,12 @@
+import {
+  CollectionModel,
+  getInitialCollectionModel,
+  linearizeCollection,
+  pushCollection,
+} from '@shared/collection';
 import GitHubStore from '@store/GitHubStore';
-import { IGitHubStore, RepoItem } from '@store/GitHubStore/types';
+import { IGitHubStore } from '@store/GitHubStore/types';
+import { normalizeRepoItem, RepoItemModel } from '@store/models';
 import { Meta } from '@utils/meta';
 import { ILocalStore } from '@utils/useLocalStore';
 import {
@@ -16,7 +23,8 @@ type PrivateFields = '_meta' | '_repoList' | '_orgName' | '_page' | '_hasMore';
 
 export default class ReposListStore implements ILocalStore, IReposListStore {
   private _meta: Meta = Meta.initial;
-  private _repoList: RepoItem[] = [];
+  private _repoList: CollectionModel<number, RepoItemModel> =
+    getInitialCollectionModel();
   private _orgName: string = 'ktsstudio';
   private _page: number = 1;
   private _hasMore: boolean = true;
@@ -34,7 +42,9 @@ export default class ReposListStore implements ILocalStore, IReposListStore {
       orgName: computed,
       page: computed,
       hasMore: computed,
-      getOrgReposList: action,
+      getReposListInit: action.bound,
+      getReposListMore: action.bound,
+      getOrgReposList: action.bound,
     });
     this.gitHubStore = gitHubStore;
   }
@@ -43,8 +53,8 @@ export default class ReposListStore implements ILocalStore, IReposListStore {
     return this._meta;
   }
 
-  get repoList(): RepoItem[] {
-    return this._repoList;
+  get repoList(): RepoItemModel[] {
+    return linearizeCollection(this._repoList);
   }
 
   get orgName(): string {
@@ -78,19 +88,45 @@ export default class ReposListStore implements ILocalStore, IReposListStore {
     });
 
     runInAction(() => {
-      if (result.success && result.data.length !== 0) {
-        this._repoList.push(...result.data);
-        this._meta = Meta.succes;
-      } else {
-        this._hasMore = false; // мб объединить с соседней?
+      if (!result.success) {
+        this._meta = Meta.error;
+        this._hasMore = false;
+        return;
+      }
+
+      if (result.data.length === 0) {
+        this._hasMore = false;
+      }
+
+      try {
+        this._meta = Meta.success;
+
+        const list: RepoItemModel[] = [];
+        for (const item of result.data) {
+          list.push(normalizeRepoItem(item));
+        }
+
+        this._repoList = pushCollection(
+          this._repoList,
+          list,
+          (listItem) => listItem.id
+        );
+        return;
+      } catch (e) {
         this._meta = Meta.error;
       }
     });
   }
+  getReposListInit(): void {
+    this.getOrgReposList(false);
+  }
+  getReposListMore(): void {
+    this.getOrgReposList(true);
+  }
 
   private reset() {
     this._page = 1;
-    this._repoList = [];
+    this._repoList = getInitialCollectionModel();
     this._hasMore = true;
   }
 

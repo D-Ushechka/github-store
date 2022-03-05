@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import GitHubStore from '@store/GitHubStore';
 import RepoBranchesStore from '@store/RepoBranchesStore';
