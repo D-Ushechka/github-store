@@ -5,7 +5,7 @@ import {
   normalizeCollection,
 } from '@shared/collection';
 import { BranchItemModel, normalizeBranchItem } from '@store/models';
-import gitHubStore from '@store/RootStore';
+import rootStore from '@store/RootStore';
 import { Meta } from '@utils/meta';
 import { ILocalStore } from '@utils/useLocalStore';
 import {
@@ -52,7 +52,7 @@ export default class RepoBranchesStore
     this._meta = Meta.loading;
     this._branchesList = getInitialCollectionModel();
 
-    const result = await gitHubStore.getBranchesList({
+    const result = await rootStore.gitHubStore.getBranchesList({
       owner: params.orgName,
       repo: params.repoName,
     });

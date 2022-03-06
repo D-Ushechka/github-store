@@ -1,5 +1,5 @@
-import GitHubStore from './GitHubStore';
+import RootStore from './RootStore';
 
 export { default } from './instance';
 
-export { GitHubStore };
+export { RootStore };

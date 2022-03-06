@@ -1,5 +1,5 @@
-import GitHubStore from './GitHubStore';
+import RootStore from './RootStore';
 
-const gitHubStore = new GitHubStore();
+const rootStore = new RootStore();
 
-export default gitHubStore;
+export default rootStore;

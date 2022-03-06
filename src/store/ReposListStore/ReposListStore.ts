@@ -5,7 +5,7 @@ import {
   pushCollection,
 } from '@shared/collection';
 import { normalizeRepoItem, RepoItemModel } from '@store/models';
-import gitHubStore from '@store/RootStore';
+import rootStore from '@store/RootStore';
 import { Meta } from '@utils/meta';
 import { ILocalStore } from '@utils/useLocalStore';
 import {
@@ -78,7 +78,7 @@ export default class ReposListStore implements ILocalStore, IReposListStore {
       this.reset();
     }
 
-    const result = await gitHubStore.getOrganizationReposList({
+    const result = await rootStore.gitHubStore.getOrganizationReposList({
       organizationName: this._orgName,
       perPage: 20,
       page: this.page,

@@ -1,9 +1,9 @@
-import gitHubStore from '@store/RootStore';
+import rootStore from '@store/RootStore';
 
 export function func() {
   const EXAMPLE_ORGANIZATION = 'ktsstudio';
 
-  gitHubStore
+  rootStore.gitHubStore
     .getOrganizationReposList({
       organizationName: EXAMPLE_ORGANIZATION,
     })
@@ -17,7 +17,7 @@ export function func() {
       console.log(result);
     });
 
-  gitHubStore
+  rootStore.gitHubStore
     .postUserRepo({
       userToken: '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',
       repoName: 'test124',
