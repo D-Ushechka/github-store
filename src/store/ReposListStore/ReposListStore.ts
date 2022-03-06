@@ -4,9 +4,8 @@ import {
   linearizeCollection,
   pushCollection,
 } from '@shared/collection';
-import GitHubStore from '@store/GitHubStore';
-import { IGitHubStore } from '@store/GitHubStore/types';
 import { normalizeRepoItem, RepoItemModel } from '@store/models';
+import gitHubStore from '@store/RootStore';
 import { Meta } from '@utils/meta';
 import { ILocalStore } from '@utils/useLocalStore';
 import {
@@ -28,9 +27,8 @@ export default class ReposListStore implements ILocalStore, IReposListStore {
   private _orgName: string = 'ktsstudio';
   private _page: number = 1;
   private _hasMore: boolean = true;
-  private readonly gitHubStore: IGitHubStore;
 
-  constructor(gitHubStore: GitHubStore) {
+  constructor() {
     makeObservable<ReposListStore, PrivateFields>(this, {
       _meta: observable,
       _repoList: observable,
@@ -46,7 +44,6 @@ export default class ReposListStore implements ILocalStore, IReposListStore {
       getReposListMore: action.bound,
       getOrgReposList: action.bound,
     });
-    this.gitHubStore = gitHubStore;
   }
 
   get meta(): Meta {
@@ -81,7 +78,7 @@ export default class ReposListStore implements ILocalStore, IReposListStore {
       this.reset();
     }
 
-    const result = await this.gitHubStore.getOrganizationReposList({
+    const result = await gitHubStore.getOrganizationReposList({
       organizationName: this._orgName,
       perPage: 20,
       page: this.page,

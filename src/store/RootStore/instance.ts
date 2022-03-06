@@ -1,5 +1,5 @@
-import ApiStore from './ApiStore';
+import GitHubStore from './GitHubStore';
 
-const gitHubApiStore = new ApiStore('https://api.github.com');
+const gitHubStore = new GitHubStore();
 
-export default gitHubApiStore;
+export default gitHubStore;

@@ -6,9 +6,6 @@ import Input from '@components/Input';
 import RepoBranchesDrawer from '@components/RepoBranchesDrawer';
 import RepoTile from '@components/RepoTile';
 import SearchIcon from '@components/SearchIcon';
-import GitHubStore from '@store/GitHubStore/GitHubStore';
-import { IGitHubStore } from '@store/GitHubStore/types';
-import { RepoItemModel } from '@store/models';
 import ReposListStore from '@store/ReposListStore';
 import { Meta } from '@utils/meta';
 import { useLocalStore } from '@utils/useLocalStore';
@@ -19,19 +16,11 @@ import { useHistory } from 'react-router-dom';
 import styles from './ReposSearchPage.module.scss';
 
 export type ReposContext = {
-  repoList?: RepoItemModel[];
-  isLoading?: boolean;
-  getOrgReposList?: () => void;
-  gitHubStore?: IGitHubStore;
-  reposListStore?: ReposListStore;
+  reposListStore: ReposListStore;
 };
 
 const reposContext = createContext<ReposContext>({
-  repoList: [],
-  isLoading: false,
-  getOrgReposList: () => {},
-  // gitHubStore: new GitHubStore(),
-  // reposListStore: new ReposListStore(gitHubStore),
+  reposListStore: new ReposListStore(),
 });
 
 const Provider = reposContext.Provider;
@@ -39,8 +28,7 @@ const Provider = reposContext.Provider;
 export const useReposContext = () => useContext(reposContext);
 
 const ReposSearchPage = () => {
-  const gitHubStore = useLocalStore(() => new GitHubStore());
-  const reposListStore = useLocalStore(() => new ReposListStore(gitHubStore));
+  const reposListStore = useLocalStore(() => new ReposListStore());
 
   React.useEffect(() => {
     reposListStore.getReposListInit();
@@ -60,12 +48,8 @@ const ReposSearchPage = () => {
   }, [history]);
 
   return (
-    <Provider value={{}}>
-      <RepoBranchesDrawer
-        organization={reposListStore.orgName}
-        onClose={closeRepoBranchesDrawer}
-        gitHubStore={gitHubStore}
-      />
+    <Provider value={{ reposListStore }}>
+      <RepoBranchesDrawer onClose={closeRepoBranchesDrawer} />
       <div className={styles.container}>
         <div className={styles['search-bar']}>
           <Input value={reposListStore.orgName} onChange={onChange} />

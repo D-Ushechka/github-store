@@ -4,8 +4,8 @@ import {
   linearizeCollection,
   normalizeCollection,
 } from '@shared/collection';
-import { IGitHubStore } from '@store/GitHubStore/types';
 import { BranchItemModel, normalizeBranchItem } from '@store/models';
+import gitHubStore from '@store/RootStore';
 import { ILocalStore } from '@utils/useLocalStore';
 import {
   action,
@@ -22,17 +22,15 @@ type PrivateFields = '_branchesList';
 export default class RepoBranchesStore
   implements ILocalStore, IRepoBranchesStore
 {
-  private readonly _gitHubStore: IGitHubStore;
   private _branchesList: CollectionModel<string, BranchItemModel> =
     getInitialCollectionModel();
 
-  constructor(gitHubStore: IGitHubStore) {
+  constructor() {
     makeObservable<RepoBranchesStore, PrivateFields>(this, {
       _branchesList: observable.ref,
       branchesList: computed,
       getRepoBranches: action,
     });
-    this._gitHubStore = gitHubStore;
   }
 
   get branchesList(): BranchItemModel[] {
@@ -44,7 +42,7 @@ export default class RepoBranchesStore
 
     this._branchesList = getInitialCollectionModel();
 
-    const result = await this._gitHubStore.getBranchesList({
+    const result = await gitHubStore.getBranchesList({
       owner: params.orgName,
       repo: params.repoName,
     });

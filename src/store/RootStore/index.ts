@@ -1,5 +1,5 @@
-import ApiStore from './ApiStore';
+import GitHubStore from './GitHubStore';
 
 export { default } from './instance';
 
-export { ApiStore };
+export { GitHubStore };

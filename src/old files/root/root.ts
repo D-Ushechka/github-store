@@ -1,4 +1,4 @@
-import GitHubStore from '@store/GitHubStore/GitHubStore';
+import GitHubStore from '@store/RootStore/GitHubStore';
 
 export function func() {
   const gitHubStore = new GitHubStore();

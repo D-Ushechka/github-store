@@ -1,6 +1,6 @@
 import React from 'react';
 
-import GitHubStore from '@store/GitHubStore';
+import { useReposContext } from '@pages/ReposSearchPage/ReposSearchPage';
 import RepoBranchesStore from '@store/RepoBranchesStore';
 import { useLocalStore } from '@utils/useLocalStore';
 import { Drawer } from 'antd';
@@ -8,27 +8,20 @@ import { observer } from 'mobx-react-lite';
 import { useParams } from 'react-router-dom';
 
 export type RepoBranchesDrawerProps = {
-  organization: string;
   onClose: () => void;
-  gitHubStore: GitHubStore;
 };
 
-const RepoBranchesDrawer: React.FC<RepoBranchesDrawerProps> = ({
-  organization,
-  onClose,
-  gitHubStore,
-}) => {
+const RepoBranchesDrawer: React.FC<RepoBranchesDrawerProps> = ({ onClose }) => {
   const { name } = useParams<{ name: string }>();
-  const repoBranchesStore = useLocalStore(
-    () => new RepoBranchesStore(gitHubStore)
-  );
+  const repoBranchesStore = useLocalStore(() => new RepoBranchesStore());
+  const reposContext = useReposContext();
 
   React.useEffect(() => {
     repoBranchesStore.getRepoBranches({
-      orgName: organization,
+      orgName: reposContext.reposListStore.orgName,
       repoName: name,
     });
-  }, [name, organization, repoBranchesStore]);
+  }, [name, repoBranchesStore, reposContext.reposListStore.orgName]);
 
   return (
     <Drawer
