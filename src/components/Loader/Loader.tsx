@@ -11,4 +11,4 @@ const Loader: React.FC<LoaderProps> = ({ visible }) => {
   else return <div className={styles.unvisible}></div>;
 };
 
-export default Loader;
+export default React.memo(Loader);

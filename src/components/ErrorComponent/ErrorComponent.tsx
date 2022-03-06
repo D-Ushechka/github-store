@@ -16,4 +16,4 @@ const ErrorComponent: React.FC<ErrorComponentProps> = ({ visible }) => {
   else return <div className={styles.unvisible}></div>;
 };
 
-export default ErrorComponent;
+export default React.memo(ErrorComponent);
