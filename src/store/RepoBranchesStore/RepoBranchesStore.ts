@@ -6,6 +6,7 @@ import {
 } from '@shared/collection';
 import { BranchItemModel, normalizeBranchItem } from '@store/models';
 import gitHubStore from '@store/RootStore';
+import { Meta } from '@utils/meta';
 import { ILocalStore } from '@utils/useLocalStore';
 import {
   action,
@@ -17,7 +18,7 @@ import {
 
 import { IRepoBranchesStore, GetRepoBranchesParams } from './types';
 
-type PrivateFields = '_branchesList';
+type PrivateFields = '_branchesList' | '_meta';
 
 export default class RepoBranchesStore
   implements ILocalStore, IRepoBranchesStore
@@ -25,9 +26,13 @@ export default class RepoBranchesStore
   private _branchesList: CollectionModel<string, BranchItemModel> =
     getInitialCollectionModel();
 
+  private _meta: Meta = Meta.initial;
+
   constructor() {
     makeObservable<RepoBranchesStore, PrivateFields>(this, {
       _branchesList: observable.ref,
+      _meta: observable,
+      meta: computed,
       branchesList: computed,
       getRepoBranches: action,
     });
@@ -37,9 +42,14 @@ export default class RepoBranchesStore
     return linearizeCollection(this._branchesList);
   }
 
+  get meta(): Meta {
+    return this._meta;
+  }
+
   async getRepoBranches(params: GetRepoBranchesParams): Promise<void> {
     if (!params.repoName) return;
 
+    this._meta = Meta.loading;
     this._branchesList = getInitialCollectionModel();
 
     const result = await gitHubStore.getBranchesList({
@@ -48,18 +58,24 @@ export default class RepoBranchesStore
     });
 
     runInAction(() => {
-      if (!result.success) return;
+      if (!result.success) {
+        this._meta = Meta.error;
+        return;
+      }
 
       try {
-        const list = [];
+        const list: BranchItemModel[] = [];
         for (const item of result.data) {
           list.push(normalizeBranchItem(item));
         }
+
+        this._meta = Meta.success;
         this._branchesList = normalizeCollection(
           list,
           (listItem) => listItem.name
         );
       } catch (e) {
+        this._meta = Meta.error;
         this._branchesList = getInitialCollectionModel();
       }
     });

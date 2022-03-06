@@ -1,7 +1,10 @@
 import React from 'react';
 
+import ErrorComponent from '@components/ErrorComponent';
+import Loader from '@components/Loader';
 import { useReposContext } from '@pages/ReposSearchPage/ReposSearchPage';
 import RepoBranchesStore from '@store/RepoBranchesStore';
+import { Meta } from '@utils/meta';
 import { useLocalStore } from '@utils/useLocalStore';
 import { Drawer } from 'antd';
 import { observer } from 'mobx-react-lite';
@@ -32,6 +35,8 @@ const RepoBranchesDrawer: React.FC<RepoBranchesDrawerProps> = ({ onClose }) => {
       {repoBranchesStore.branchesList.map((it) => (
         <div key={it.name}>{it.name}</div>
       ))}
+      <Loader visible={repoBranchesStore.meta === Meta.loading} />
+      <ErrorComponent visible={repoBranchesStore.meta === Meta.error} />
     </Drawer>
   );
 };

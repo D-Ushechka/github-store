@@ -2,7 +2,9 @@ import { createContext, useContext } from 'react';
 import React from 'react';
 
 import Button from '@components/Button';
+import ErrorComponent from '@components/ErrorComponent';
 import Input from '@components/Input';
+import Loader from '@components/Loader';
 import RepoBranchesDrawer from '@components/RepoBranchesDrawer';
 import RepoTile from '@components/RepoTile';
 import SearchIcon from '@components/SearchIcon';
@@ -65,7 +67,7 @@ const ReposSearchPage = () => {
           dataLength={reposListStore.repoList.length}
           next={reposListStore.getReposListMore}
           hasMore={reposListStore.hasMore}
-          loader={<h4>Loading...</h4>}
+          loader={<p></p>}
           endMessage={
             <p className={styles['end-message']}>
               <b>You have seen it all</b>
@@ -78,6 +80,8 @@ const ReposSearchPage = () => {
             ))}
           </div>
         </InfiniteScroll>
+        <Loader visible={reposListStore.meta === Meta.loading} />
+        <ErrorComponent visible={reposListStore.meta === Meta.error} />
       </div>
     </Provider>
   );
