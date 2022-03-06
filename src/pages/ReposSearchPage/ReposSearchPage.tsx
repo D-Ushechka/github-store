@@ -8,7 +8,9 @@ import Loader from '@components/Loader';
 import RepoBranchesDrawer from '@components/RepoBranchesDrawer';
 import RepoTile from '@components/RepoTile';
 import SearchIcon from '@components/SearchIcon';
+import InputStore from '@store/InputStore';
 import ReposListStore from '@store/ReposListStore';
+import rootStore from '@store/RootStore';
 import { Meta } from '@utils/meta';
 import { useLocalStore } from '@utils/useLocalStore';
 import { observer } from 'mobx-react-lite';
@@ -31,6 +33,7 @@ export const useReposContext = () => useContext(reposContext);
 
 const ReposSearchPage = () => {
   const reposListStore = useLocalStore(() => new ReposListStore());
+  const inputStore = useLocalStore(() => new InputStore());
 
   React.useEffect(() => {
     reposListStore.getReposListInit();
@@ -38,25 +41,28 @@ const ReposSearchPage = () => {
 
   const onChange = React.useCallback(
     (value: string) => {
-      reposListStore.orgName = value;
+      inputStore.text = value;
     },
-    [reposListStore]
+    [inputStore]
   );
 
   const history = useHistory();
 
   const closeRepoBranchesDrawer = React.useCallback(() => {
-    history.push('/repos');
+    history.go(-1);
   }, [history]);
 
+  const handleClick = () => {
+    rootStore.query.setParam('search', inputStore.text);
+  };
   return (
     <Provider value={{ reposListStore }}>
       <RepoBranchesDrawer onClose={closeRepoBranchesDrawer} />
       <div className={styles.container}>
         <div className={styles['search-bar']}>
-          <Input value={reposListStore.orgName} onChange={onChange} />
+          <Input value={inputStore.text} onChange={onChange} />
           <Button
-            onClick={reposListStore.getReposListInit}
+            onClick={handleClick}
             disabled={reposListStore.meta === Meta.loading}
           >
             <SearchIcon className={styles['search-icon']} />

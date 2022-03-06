@@ -11,8 +11,10 @@ import { ILocalStore } from '@utils/useLocalStore';
 import {
   action,
   computed,
+  IReactionDisposer,
   makeObservable,
   observable,
+  reaction,
   runInAction,
 } from 'mobx';
 
@@ -24,7 +26,9 @@ export default class ReposListStore implements ILocalStore, IReposListStore {
   private _meta: Meta = Meta.initial;
   private _repoList: CollectionModel<number, RepoItemModel> =
     getInitialCollectionModel();
-  private _orgName: string = 'ktsstudio';
+  private _orgName: string = rootStore.query.getParam('search')
+    ? (rootStore.query.getParam('search') as string)
+    : 'ktsstudio';
   private _page: number = 1;
   private _hasMore: boolean = true;
 
@@ -127,5 +131,15 @@ export default class ReposListStore implements ILocalStore, IReposListStore {
     this._hasMore = true;
   }
 
-  destroy(): void {}
+  destroy(): void {
+    this._qpReaction();
+  }
+
+  private readonly _qpReaction: IReactionDisposer = reaction(
+    () => rootStore.query.getParam('search'),
+    (search) => {
+      this._orgName = search as string;
+      this.getReposListInit();
+    }
+  );
 }
