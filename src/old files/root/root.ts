@@ -1,8 +1,6 @@
-import GitHubStore from '@store/RootStore/GitHubStore';
+import gitHubStore from '@store/RootStore';
 
 export function func() {
-  const gitHubStore = new GitHubStore();
-
   const EXAMPLE_ORGANIZATION = 'ktsstudio';
 
   gitHubStore
