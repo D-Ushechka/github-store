@@ -1,7 +1,8 @@
-import ReposSearchPage from '@pages/ReposSearchPage';
-import { useQueryParamsStoreInit } from '@store/RootStore/hooks/useQueryParamsStoreInit';
+import ReposSearchPage from 'pages/ReposSearchPage';
+import { useQueryParamsStoreInit } from 'store/RootStore/hooks/useQueryParamsStoreInit';
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 import './App.css';
+import React from 'react';
 
 const App = () => {
   useQueryParamsStoreInit();

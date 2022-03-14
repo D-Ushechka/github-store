@@ -1,8 +1,8 @@
 import React from 'react';
 
-import Avatar from '@components/Avatar';
-import StarIcon from '@components/StarIcon';
-import { RepoItemModel } from '@store/models';
+import Avatar from 'components/Avatar';
+import StarIcon from 'components/StarIcon';
+import { RepoItemModel } from 'store/models';
 import { observer } from 'mobx-react-lite';
 import { Link } from 'react-router-dom';
 

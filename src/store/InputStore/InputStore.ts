@@ -1,5 +1,5 @@
-import rootStore from '@store/RootStore';
-import { ILocalStore } from '@utils/useLocalStore';
+import rootStore from 'store/RootStore';
+import { ILocalStore } from 'utils/useLocalStore';
 import { computed, makeObservable, observable } from 'mobx';
 
 type PrivateFields = '_text';

@@ -3,11 +3,11 @@ import {
   getInitialCollectionModel,
   linearizeCollection,
   normalizeCollection,
-} from '@shared/collection';
-import { BranchItemModel, normalizeBranchItem } from '@store/models';
-import rootStore from '@store/RootStore';
-import { Meta } from '@utils/meta';
-import { ILocalStore } from '@utils/useLocalStore';
+} from 'shared/collection';
+import { BranchItemModel, normalizeBranchItem } from 'store/models';
+import rootStore from 'store/RootStore';
+import { Meta } from 'utils/meta';
+import { ILocalStore } from 'utils/useLocalStore';
 import {
   action,
   computed,

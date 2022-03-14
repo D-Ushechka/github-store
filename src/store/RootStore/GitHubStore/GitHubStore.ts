@@ -1,6 +1,6 @@
-import ApiStore from '@store/ApiStore';
-import { ApiResponse, HTTPMethod } from '@store/ApiStore/types';
-import { BranchItemApi, RepoItemApi } from '@store/models';
+import ApiStore from 'store/ApiStore';
+import { ApiResponse, HTTPMethod } from 'store/ApiStore/types';
+import { BranchItemApi, RepoItemApi } from 'store/models';
 
 import {
   IGitHubStore,

@@ -1,5 +1,5 @@
-import { ApiResponse } from '@store/ApiStore/types';
-import { BranchItemApi, RepoItemApi } from '@store/models';
+import { ApiResponse } from 'store/ApiStore/types';
+import { BranchItemApi, RepoItemApi } from 'store/models';
 
 export type GetOrganizationReposListParams = {
   organizationName: string;
