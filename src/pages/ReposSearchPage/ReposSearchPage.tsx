@@ -10,7 +10,6 @@ import RepoTile from '@components/RepoTile';
 import SearchIcon from '@components/SearchIcon';
 import InputStore from '@store/InputStore';
 import ReposListStore from '@store/ReposListStore';
-import rootStore from '@store/RootStore';
 import { Meta } from '@utils/meta';
 import { useLocalStore } from '@utils/useLocalStore';
 import { observer } from 'mobx-react-lite';
@@ -39,30 +38,20 @@ const ReposSearchPage = () => {
     reposListStore.getReposListInit();
   }, [reposListStore]);
 
-  const onChange = React.useCallback(
-    (value: string) => {
-      inputStore.text = value;
-    },
-    [inputStore]
-  );
-
   const history = useHistory();
 
   const closeRepoBranchesDrawer = React.useCallback(() => {
     history.go(-1);
   }, [history]);
 
-  const handleClick = () => {
-    rootStore.query.setParam('search', inputStore.text);
-  };
   return (
     <Provider value={{ reposListStore }}>
       <RepoBranchesDrawer onClose={closeRepoBranchesDrawer} />
       <div className={styles.container}>
         <div className={styles['search-bar']}>
-          <Input value={inputStore.text} onChange={onChange} />
+          <Input value={inputStore.text} onChange={inputStore.setText} />
           <Button
-            onClick={handleClick}
+            onClick={inputStore.search}
             disabled={reposListStore.meta === Meta.loading}
           >
             <SearchIcon className={styles['search-icon']} />
@@ -86,8 +75,8 @@ const ReposSearchPage = () => {
             ))}
           </div>
         </InfiniteScroll>
-        <Loader visible={reposListStore.meta === Meta.loading} />
-        <ErrorComponent visible={reposListStore.meta === Meta.error} />
+        {reposListStore.meta === Meta.loading && <Loader />}
+        {reposListStore.meta === Meta.error && <ErrorComponent />}
       </div>
     </Provider>
   );

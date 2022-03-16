@@ -1,6 +1,6 @@
 import rootStore from '@store/RootStore';
 import { ILocalStore } from '@utils/useLocalStore';
-import { computed, makeObservable, observable } from 'mobx';
+import { action, makeObservable, observable } from 'mobx';
 
 type PrivateFields = '_text';
 
@@ -12,7 +12,8 @@ export default class InputStore implements ILocalStore {
   constructor() {
     makeObservable<InputStore, PrivateFields>(this, {
       _text: observable,
-      text: computed,
+      setText: action.bound,
+      search: action.bound,
     });
   }
 
@@ -20,8 +21,12 @@ export default class InputStore implements ILocalStore {
     return this._text;
   }
 
-  set text(enteredText: string) {
+  setText(enteredText: string) {
     this._text = enteredText;
+  }
+
+  search() {
+    rootStore.query.setParam('search', this.text);
   }
 
   destroy(): void {}

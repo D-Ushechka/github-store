@@ -64,10 +64,7 @@ export default class RepoBranchesStore
       }
 
       try {
-        const list: BranchItemModel[] = [];
-        for (const item of result.data) {
-          list.push(normalizeBranchItem(item));
-        }
+        const list = result.data.map(normalizeBranchItem);
 
         this._meta = Meta.success;
         this._branchesList = normalizeCollection(

@@ -102,10 +102,7 @@ export default class ReposListStore implements ILocalStore, IReposListStore {
       try {
         this._meta = Meta.success;
 
-        const list: RepoItemModel[] = [];
-        for (const item of result.data) {
-          list.push(normalizeRepoItem(item));
-        }
+        const list = result.data.map(normalizeRepoItem);
 
         this._repoList = pushCollection(
           this._repoList,

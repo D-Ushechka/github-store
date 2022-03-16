@@ -35,10 +35,10 @@ const RepoBranchesDrawer: React.FC<RepoBranchesDrawerProps> = ({ onClose }) => {
       {repoBranchesStore.branchesList.map((it) => (
         <div key={it.name}>{it.name}</div>
       ))}
-      <Loader visible={repoBranchesStore.meta === Meta.loading} />
-      <ErrorComponent visible={repoBranchesStore.meta === Meta.error} />
+      {repoBranchesStore.meta === Meta.loading && <Loader />}
+      {repoBranchesStore.meta === Meta.error && <ErrorComponent />}
     </Drawer>
   );
 };
 
-export default React.memo(observer(RepoBranchesDrawer));
+export default observer(RepoBranchesDrawer);
