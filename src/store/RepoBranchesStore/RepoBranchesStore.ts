@@ -105,5 +105,8 @@ export default class RepoBranchesStore
     }
   );
 
-  destroy(): void {}
+  destroy(): void {
+    this._searchReaction();
+    this._repoReaction();
+  }
 }
