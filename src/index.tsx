@@ -1,12 +1,22 @@
-import React from 'react';
+import * as React from 'react';
+import 'regenerator-runtime';
+import { render } from 'react-dom';
 
-import ReactDOM from 'react-dom';
+import * as Router from 'react-router-dom';
 
 import App from './App';
 
-ReactDOM.render(
+import 'config/configureMobX.ts';
+
+render(
   <React.StrictMode>
-    <App />
+    <Router.BrowserRouter>
+      <App />
+    </Router.BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')
 );
+
+if (module.hot) {
+  module.hot.accept();
+}   
