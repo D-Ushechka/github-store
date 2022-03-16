@@ -18,7 +18,7 @@ const RepoBranchesDrawer: React.FC<RepoBranchesDrawerProps> = ({ onClose }) => {
   const { name } = useParams<{ name: string }>();
   const reposContext = useReposContext();
   const repoBranchesStore = useLocalStore(
-    () => new RepoBranchesStore(name, reposContext.reposListStore.orgName)
+    () => new RepoBranchesStore(reposContext.reposListStore.orgName)
   );
 
   React.useEffect(() => {
@@ -31,9 +31,10 @@ const RepoBranchesDrawer: React.FC<RepoBranchesDrawerProps> = ({ onClose }) => {
       visible={!!name}
       title={`Ветки репозитория ${name}`}
     >
-      {repoBranchesStore.branchesList.map((it) => (
-        <div key={it.name}>{it.name}</div>
-      ))}
+      {repoBranchesStore.meta !== Meta.error &&
+        repoBranchesStore.branchesList.map((it) => (
+          <div key={it.name}>{it.name}</div>
+        ))}
       {repoBranchesStore.meta === Meta.loading && <Loader />}
       {repoBranchesStore.meta === Meta.error && <ErrorComponent />}
     </Drawer>

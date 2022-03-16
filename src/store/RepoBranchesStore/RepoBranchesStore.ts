@@ -29,10 +29,10 @@ export default class RepoBranchesStore
     getInitialCollectionModel();
 
   private _meta: Meta = Meta.initial;
-  private _repoName: string | null;
+  private _repoName: string | null = null;
   private _orgName: string;
 
-  constructor(repoName: string | null, orgName: string) {
+  constructor(orgName: string) {
     makeObservable<RepoBranchesStore, PrivateFields>(this, {
       _branchesList: observable.ref,
       _meta: observable,
@@ -43,7 +43,6 @@ export default class RepoBranchesStore
       getRepoBranches: action,
       setRepoName: action.bound,
     });
-    this._repoName = repoName;
     this._orgName = orgName;
   }
 

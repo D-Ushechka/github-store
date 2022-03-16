@@ -58,23 +58,25 @@ const ReposSearchPage = () => {
           </Button>
         </div>
 
-        <InfiniteScroll
-          dataLength={reposListStore.repoList.length}
-          next={reposListStore.getReposListMore}
-          hasMore={reposListStore.hasMore}
-          loader={<p></p>}
-          endMessage={
-            <p className={styles['end-message']}>
-              <b>You have seen it all</b>
-            </p>
-          }
-        >
-          <div className={styles['repos-list']}>
-            {reposListStore.repoList.map((it) => (
-              <RepoTile key={it.id} item={it} />
-            ))}
-          </div>
-        </InfiniteScroll>
+        {reposListStore.meta !== Meta.error && (
+          <InfiniteScroll
+            dataLength={reposListStore.repoList.length}
+            next={reposListStore.getReposListMore}
+            hasMore={reposListStore.hasMore}
+            loader={<p></p>}
+            endMessage={
+              <p className={styles['end-message']}>
+                <b>You have seen it all</b>
+              </p>
+            }
+          >
+            <div className={styles['repos-list']}>
+              {reposListStore.repoList.map((it) => (
+                <RepoTile key={it.id} item={it} />
+              ))}
+            </div>
+          </InfiniteScroll>
+        )}
         {reposListStore.meta === Meta.loading && <Loader />}
         {reposListStore.meta === Meta.error && <ErrorComponent />}
       </div>
