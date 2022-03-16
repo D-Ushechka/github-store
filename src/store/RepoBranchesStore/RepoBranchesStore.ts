@@ -11,14 +11,16 @@ import { ILocalStore } from '@utils/useLocalStore';
 import {
   action,
   computed,
+  IReactionDisposer,
   makeObservable,
   observable,
+  reaction,
   runInAction,
 } from 'mobx';
 
-import { IRepoBranchesStore, GetRepoBranchesParams } from './types';
+import { IRepoBranchesStore } from './types';
 
-type PrivateFields = '_branchesList' | '_meta';
+type PrivateFields = '_branchesList' | '_meta' | '_repoName' | '_orgName';
 
 export default class RepoBranchesStore
   implements ILocalStore, IRepoBranchesStore
@@ -27,15 +29,22 @@ export default class RepoBranchesStore
     getInitialCollectionModel();
 
   private _meta: Meta = Meta.initial;
+  private _repoName: string | null;
+  private _orgName: string;
 
-  constructor() {
+  constructor(repoName: string | null, orgName: string) {
     makeObservable<RepoBranchesStore, PrivateFields>(this, {
       _branchesList: observable.ref,
       _meta: observable,
+      _repoName: observable,
+      _orgName: observable,
       meta: computed,
       branchesList: computed,
       getRepoBranches: action,
+      setRepoName: action.bound,
     });
+    this._repoName = repoName;
+    this._orgName = orgName;
   }
 
   get branchesList(): BranchItemModel[] {
@@ -46,15 +55,15 @@ export default class RepoBranchesStore
     return this._meta;
   }
 
-  async getRepoBranches(params: GetRepoBranchesParams): Promise<void> {
-    if (!params.repoName) return;
+  async getRepoBranches(): Promise<void> {
+    if (!this._repoName) return;
 
     this._meta = Meta.loading;
     this._branchesList = getInitialCollectionModel();
 
     const result = await rootStore.gitHubStore.getBranchesList({
-      owner: params.orgName,
-      repo: params.repoName,
+      owner: this._orgName,
+      repo: this._repoName,
     });
 
     runInAction(() => {
@@ -77,6 +86,24 @@ export default class RepoBranchesStore
       }
     });
   }
+
+  setRepoName(value: string) {
+    this._repoName = value;
+  }
+
+  private readonly _searchReaction: IReactionDisposer = reaction(
+    () => rootStore.query.getParam('search'),
+    (search) => {
+      this._orgName = search as string;
+    }
+  );
+
+  private readonly _repoReaction: IReactionDisposer = reaction(
+    () => this._repoName,
+    () => {
+      this.getRepoBranches();
+    }
+  );
 
   destroy(): void {}
 }

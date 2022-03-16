@@ -16,15 +16,14 @@ export type RepoBranchesDrawerProps = {
 
 const RepoBranchesDrawer: React.FC<RepoBranchesDrawerProps> = ({ onClose }) => {
   const { name } = useParams<{ name: string }>();
-  const repoBranchesStore = useLocalStore(() => new RepoBranchesStore());
   const reposContext = useReposContext();
+  const repoBranchesStore = useLocalStore(
+    () => new RepoBranchesStore(name, reposContext.reposListStore.orgName)
+  );
 
   React.useEffect(() => {
-    repoBranchesStore.getRepoBranches({
-      orgName: reposContext.reposListStore.orgName,
-      repoName: name,
-    });
-  }, [name, repoBranchesStore, reposContext.reposListStore.orgName]);
+    repoBranchesStore.setRepoName(name);
+  }, [name, repoBranchesStore]);
 
   return (
     <Drawer
