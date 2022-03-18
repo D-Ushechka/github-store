@@ -1,6 +1,12 @@
 import { stringify } from 'qs';
 
-import { ApiResponse, IApiStore, RequestParams, HTTPMethod } from './types';
+import {
+  ApiResponse,
+  IApiStore,
+  RequestParams,
+  HTTPMethod,
+  StatusHTTP,
+} from './types';
 
 export default class ApiStore implements IApiStore {
   readonly baseUrl: string;
@@ -32,12 +38,20 @@ export default class ApiStore implements IApiStore {
   async request<SuccessT, ErrorT = any, ReqT = {}>(
     params: RequestParams<ReqT>
   ): Promise<ApiResponse<SuccessT, ErrorT>> {
-    const response = await fetch(...this.getRequestData(params));
-    const data = await response.json();
-    return {
-      status: response.status,
-      data,
-      success: response.ok,
-    };
+    try {
+      const response = await fetch(...this.getRequestData(params));
+      const data = await response.json();
+      return {
+        status: response.status,
+        data,
+        success: response.ok,
+      };
+    } catch (e) {
+      return {
+        success: false,
+        data: null,
+        status: StatusHTTP.UNEXPECTED_ERROR,
+      };
+    }
   }
 }

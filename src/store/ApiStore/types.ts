@@ -20,7 +20,7 @@ export type RequestParams<ReqT> = {
 };
 
 // Перечисление статусов ответа
-enum StatusHTTP {
+export enum StatusHTTP {
   status200 = 200,
   status201 = 201,
   status300 = 300,
@@ -30,6 +30,7 @@ enum StatusHTTP {
   status403 = 403,
   status404 = 404,
   status422 = 422,
+  UNEXPECTED_ERROR = 'UNEXPECTED ERROR',
 }
 
 // Ответ API
@@ -42,6 +43,11 @@ export type ApiResponse<SuccessT, ErrorT> =
   | {
       success: false;
       data: ErrorT;
+      status: StatusHTTP;
+    }
+  | {
+      success: false;
+      data: null;
       status: StatusHTTP;
     };
 

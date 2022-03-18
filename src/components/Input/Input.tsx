@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 
 import styles from './Input.module.scss';
 
@@ -13,8 +13,12 @@ const Input: React.FC<InputProps> = ({
   placeholder = 'Введите название организации',
   onChange,
 }) => {
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
-    onChange(e.target.value);
+  const handleChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      onChange(e.target.value);
+    },
+    [onChange]
+  );
 
   return (
     <input

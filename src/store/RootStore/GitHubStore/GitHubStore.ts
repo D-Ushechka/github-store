@@ -1,15 +1,14 @@
-import ApiStore from '@shared/store/ApiStore';
-import { HTTPMethod, ApiResponse } from '@shared/store/ApiStore/types';
+import ApiStore from '@store/ApiStore';
+import { ApiResponse, HTTPMethod } from '@store/ApiStore/types';
+import { BranchItemApi, RepoItemApi } from '@store/models';
 
 import {
   IGitHubStore,
   GetOrganizationReposListParams,
-  RepoItem,
   PostUserRepoParam,
   ErrorAnswer,
   SuccesRepo,
   GetBranchesListParams,
-  BranchItem,
 } from './types';
 
 export default class GitHubStore implements IGitHubStore {
@@ -17,7 +16,7 @@ export default class GitHubStore implements IGitHubStore {
 
   async getOrganizationReposList(
     params: GetOrganizationReposListParams
-  ): Promise<ApiResponse<RepoItem[], ErrorAnswer>> {
+  ): Promise<ApiResponse<RepoItemApi[], ErrorAnswer>> {
     return await this.apiStore.request({
       method: HTTPMethod.GET,
       endpoint: '/orgs/' + params.organizationName + '/repos',
@@ -43,7 +42,7 @@ export default class GitHubStore implements IGitHubStore {
 
   async getBranchesList(
     params: GetBranchesListParams
-  ): Promise<ApiResponse<BranchItem[], ErrorAnswer>> {
+  ): Promise<ApiResponse<BranchItemApi[], ErrorAnswer>> {
     return await this.apiStore.request({
       method: HTTPMethod.GET,
       endpoint: '/repos/' + params.owner + '/' + params.repo + '/branches',

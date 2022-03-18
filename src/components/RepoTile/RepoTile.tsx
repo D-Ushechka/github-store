@@ -2,25 +2,25 @@ import React from 'react';
 
 import Avatar from '@components/Avatar';
 import StarIcon from '@components/StarIcon';
-import { RepoItem } from '@store/GitHubStore/types';
+import { RepoItemModel } from '@store/models';
+import { format } from 'date-fns';
+import { observer } from 'mobx-react-lite';
 import { Link } from 'react-router-dom';
 
 import styles from './RepoTile.module.scss';
 
 export type RepoTileProps = {
-  item: RepoItem;
-  onClick?: (e: React.MouseEvent) => void;
+  item: RepoItemModel;
 };
 
-const RepoTile: React.FC<RepoTileProps> = ({ item, onClick }) => {
+const RepoTile: React.FC<RepoTileProps> = ({ item }) => {
   return (
     <Link to={`/repos/${item.name}`}>
       <div
         className={`${styles['git-repo-tile']} ${styles['git-repo-tile_hover']}`}
-        onClick={onClick}
       >
         <Avatar
-          src={item.owner.avatar_url}
+          src={item.owner.avatarUrl}
           alt="avatar"
           letter={
             item.owner.login.length
@@ -36,15 +36,10 @@ const RepoTile: React.FC<RepoTileProps> = ({ item, onClick }) => {
           <div className={styles.info}>
             <div className={styles.stars}>
               <StarIcon />
-              <p className={styles.stars__p}>{item.stargazers_count}</p>
+              <p className={styles.stars__p}>{item.stargazersCount}</p>
             </div>
             <div className={styles.date}>
-              Updated{' '}
-              {item.updated_at.slice(8, 10) +
-                '.' +
-                item.updated_at.slice(5, 7) +
-                '.' +
-                item.updated_at.slice(0, 4)}
+              Updated {format(item.updatedAt, 'dd.MM.yyyy')}
             </div>
           </div>
         </div>
@@ -53,4 +48,4 @@ const RepoTile: React.FC<RepoTileProps> = ({ item, onClick }) => {
   );
 };
 
-export default React.memo(RepoTile);
+export default observer(RepoTile);

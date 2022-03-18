@@ -1,0 +1,21 @@
+@import "@styles/varibles.scss";
+
+.loader {
+  border: 8px solid #f3f3f3;
+  border-top: 8px solid $accent-color;
+  @include square(50px, 50%);
+  animation: spin 2s linear infinite;
+  position: relative;
+  left: calc(50% - 25px);
+  overflow: hidden;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
