@@ -2,6 +2,8 @@ import { ApiResponse } from '../../shared/store/ApiStore/types';
 
 export type GetOrganizationReposListParams = {
   organizationName: string;
+  perPage?: number;
+  page?: number;
 };
 
 export type GitHubRepoOwner = {

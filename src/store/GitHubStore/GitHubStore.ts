@@ -22,7 +22,7 @@ export default class GitHubStore implements IGitHubStore {
       method: HTTPMethod.GET,
       endpoint: '/orgs/' + params.organizationName + '/repos',
       headers: {},
-      data: {},
+      data: { per_page: params.perPage, page: params.page },
     });
   }
 
